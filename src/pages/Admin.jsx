@@ -536,7 +536,7 @@ const Admin = () => {
               className="border p-4 rounded shadow hover:shadow-lg relative"
             >
               <img
-                src={`http://localhost:5000${place.imageUrl}`}
+                src={`https://kaivalyainfotechbackend.onrender.com${place.imageUrl}`}
                 alt={place.name}
                 className="w-full h-40 object-cover rounded mb-2"
               />
