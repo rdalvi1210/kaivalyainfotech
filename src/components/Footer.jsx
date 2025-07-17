@@ -51,6 +51,19 @@ const Footer = () => {
         &copy; {new Date().getFullYear()} KailvalyaInfotech. All rights
         reserved.
       </div>
+
+      {/* Built by credit */}
+      <div className="max-w-7xl mx-auto px-6 mt-2 text-center text-sm text-white/70">
+        Built by{" "}
+        <a
+          href="https://rdalvi1210.github.io/ramchandradalviportfolio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-white"
+        >
+          Ramchandra Dalvi
+        </a>
+      </div>
     </footer>
   );
 };
