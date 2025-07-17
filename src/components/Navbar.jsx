@@ -51,7 +51,7 @@ const Navbar = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://kaivalyainfotechbackend.onrender.com/api/auth/login",
         loginData,
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ const Navbar = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", registerData);
+      await axios.post("https://kaivalyainfotechbackend.onrender.com/api/auth/register", registerData);
       toast.success("Registration successful!");
       setIsRegisterOpen(false);
       setRegisterData({ name: "", email: "", password: "" });
@@ -87,7 +87,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        "https://kaivalyainfotechbackend.onrender.com/api/auth/logout",
         {},
         { withCredentials: true }
       );

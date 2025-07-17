@@ -32,7 +32,7 @@ const CoursesPage = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/courses");
+        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/courses");
         setCourses(res.data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch courses");
@@ -191,7 +191,7 @@ const CoursesPage = () => {
                         </button>
 
                         <img
-                          src={`http://localhost:5000${imageUrl}`}
+                          src={`https://kaivalyainfotechbackend.onrender.com${imageUrl}`}
                           alt={`${title} banner`}
                           className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 hover:scale-105"
                           loading="lazy"
@@ -251,7 +251,7 @@ const CoursesPage = () => {
 
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
               <img
-                src={`http://localhost:5000${selectedCourse.imageUrl}`}
+                src={`https://kaivalyainfotechbackend.onrender.com${selectedCourse.imageUrl}`}
                 alt={`${selectedCourse.title} icon`}
                 className="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded-xl shadow-md"
                 loading="lazy"

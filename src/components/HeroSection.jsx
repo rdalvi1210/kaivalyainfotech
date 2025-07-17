@@ -10,7 +10,7 @@ const ImageSlider = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/banners");
+        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/banners");
         setBanners(res.data);
       } catch (err) {
         console.error("Failed to load banners:", err);
@@ -51,7 +51,7 @@ const ImageSlider = () => {
           // 1600px × 500px
           <img
             key={index}
-            src={`http://localhost:5000${banner.imageUrl}`}
+            src={`https://kaivalyainfotechbackend.onrender.com${banner.imageUrl}`}
             alt={`Banner ${index + 1}`}
             loading="lazy"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out ${

@@ -8,7 +8,7 @@ const PlacedStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/placements");
+        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/placements");
         setStudents(res.data);
       } catch (err) {
         console.error("Error fetching placement data:", err);
@@ -65,7 +65,7 @@ const PlacedStudents = () => {
                 {/* Profile Image */}
                 <div className="relative w-24 h-24 mx-auto mb-4">
                   <img
-                    src={`http://localhost:5000${imageUrl}`}
+                    src={`https://kaivalyainfotechbackend.onrender.com${imageUrl}`}
                     alt={`${name} profile`}
                     className="rounded-full w-full h-full object-cover border-4 border-white shadow-md"
                   />

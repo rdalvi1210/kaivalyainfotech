@@ -25,7 +25,7 @@ const ReviewsPage = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/reviews");
+        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/reviews");
         setReviews(res.data);
       } catch (err) {
         console.error("Error fetching reviews", err);
@@ -58,7 +58,7 @@ const ReviewsPage = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/reviews",
+        "https://kaivalyainfotechbackend.onrender.com/api/reviews",
         formData
       );
       setReviews([res.data, ...reviews]);

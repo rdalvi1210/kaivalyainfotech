@@ -13,7 +13,7 @@ const CertificationsPage = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/certificates");
+        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/certificates");
         setCertifications(res.data);
       } catch (err) {
         console.error("Failed to fetch certificates:", err);
@@ -112,7 +112,7 @@ const CertificationsPage = () => {
                       onClick={() =>
                         openModal({
                           title,
-                          certificate: `http://localhost:5000${certificate}`,
+                          certificate: `https://kaivalyainfotechbackend.onrender.com${certificate}`,
                           issuer,
                           description,
                           issueDate,
@@ -126,7 +126,7 @@ const CertificationsPage = () => {
 
                     <div className="h-100 overflow-hidden bg-gradient-to-tr from-yellow-100 via-yellow-50 to-yellow-100 shadow-inner">
                       <img
-                        src={`http://localhost:5000${certificate}`}
+                        src={`https://kaivalyainfotechbackend.onrender.com${certificate}`}
                         alt={`${title} certificate`}
                         className="w-full h-full object-contain object-center pointer-events-none select-none"
                         loading="lazy"
