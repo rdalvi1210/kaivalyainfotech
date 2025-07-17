@@ -165,7 +165,7 @@ const CoursesPage = () => {
                     className="flex-shrink-0 mx-2"
                     style={{
                       width: `${100 / courses.length - 0.7}%`,
-                      minWidth: "280px",
+                      minWidth: "275px",
                     }}
                     onClick={() => handleViewDetails(course)}
                     role="button"
