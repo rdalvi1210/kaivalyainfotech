@@ -178,8 +178,8 @@ const Admin = () => {
     try {
       if (type === "course") {
         url = isEdit
-          ? `https://kaivalyainfotechbackend.onrender.com/courses/editCourse/${editId}`
-          : "https://kaivalyainfotechbackend.onrender.com/courses/addCourse";
+          ? `https://kaivalyainfotechbackend.onrender.com/api/courses/editCourse/${editId}`
+          : "https://kaivalyainfotechbackend.onrender.com/api/courses/addCourse";
         dataToSend = new FormData();
         dataToSend.append("title", newCourse.title);
         dataToSend.append("description", newCourse.description);
@@ -188,8 +188,8 @@ const Admin = () => {
         if (imageFile) dataToSend.append("image", imageFile);
       } else if (type === "certificate") {
         url = isEdit
-          ? `https://kaivalyainfotechbackend.onrender.com/certificates/editCertificate/${editId}`
-          : "https://kaivalyainfotechbackend.onrender.com/certificates/addCertificate";
+          ? `https://kaivalyainfotechbackend.onrender.com/api/certificates/editCertificate/${editId}`
+          : "https://kaivalyainfotechbackend.onrender.com/api/certificates/addCertificate";
         dataToSend = new FormData();
         dataToSend.append("title", newCertificate.title);
         dataToSend.append("issuer", newCertificate.issuer);
@@ -198,8 +198,8 @@ const Admin = () => {
         if (certificateFile) dataToSend.append("image", certificateFile);
       } else if (type === "placement") {
         url = isEdit
-          ? `https://kaivalyainfotechbackend.onrender.com/placements/editPlacement/${editId}`
-          : "https://kaivalyainfotechbackend.onrender.com/placements/addPlacement";
+          ? `https://kaivalyainfotechbackend.onrender.com/api/placements/editPlacement/${editId}`
+          : "https://kaivalyainfotechbackend.onrender.com/api/placements/addPlacement";
         dataToSend = new FormData();
         dataToSend.append("name", newPlacement.name);
         dataToSend.append("companyName", newPlacement.companyName);
@@ -207,8 +207,8 @@ const Admin = () => {
         if (placementImageFile) dataToSend.append("image", placementImageFile);
       } else if (type === "banner") {
         url = isEdit
-          ? `https://kaivalyainfotechbackend.onrender.com/banners/editBanner/${editId}`
-          : "https://kaivalyainfotechbackend.onrender.com/banners/addBanner";
+          ? `https://kaivalyainfotechbackend.onrender.com/api/banners/editBanner/${editId}`
+          : "https://kaivalyainfotechbackend.onrender.com/api/banners/addBanner";
         dataToSend = new FormData();
         if (bannerImageFile) dataToSend.append("image", bannerImageFile);
       }
@@ -271,15 +271,15 @@ const Admin = () => {
       if (type === "course")
         apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/courses/delete/${id}`;
       else if (type === "certificate")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/certificates/delete/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/certificates/delete/${id}`;
       else if (type === "placement")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/placements/delete/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/placements/delete/${id}`;
       else if (type === "banner")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/banners/delete/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/banners/delete/${id}`;
       else if (type === "user")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/auth/users/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/auth/users/${id}`;
       else if (type === "review")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/reviews/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/reviews/${id}`;
 
       await axios.delete(apiUrl, { withCredentials: true });
 
