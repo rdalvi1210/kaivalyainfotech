@@ -217,6 +217,9 @@ const Navbar = () => {
             ))}
             {currentUser ? (
               <>
+                <p className="text-main-red  font-semibold">
+                  {currentUser?.name},
+                </p>
                 {currentUser.role === "admin" && (
                   <button
                     onClick={() => {
