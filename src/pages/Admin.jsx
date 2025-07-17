@@ -75,9 +75,12 @@ const Admin = () => {
           axios.get("http://localhost:5000/api/certificates", {
             withCredentials: true,
           }),
-          axios.get("http://localhost:5000/api/placements", {
-            withCredentials: true,
-          }),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/api/placements",
+            {
+              withCredentials: true,
+            }
+          ),
           axios.get("http://localhost:5000/api/auth/users", {
             withCredentials: true,
           }),
