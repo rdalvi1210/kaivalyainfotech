@@ -8,8 +8,8 @@ const Footer = () => {
         {/* Left side: Address and contact */}
         <div className="md:w-1/2 space-y-4">
           <p className="text-sm">
-            <strong>Address:</strong> Dnyaneshwar Mangal Karyalay Area, Dombivli
-            West, Maharashtra, India
+            <strong>Address:</strong> 🏢 S. No. 22, Nav Neelkanth Plaza, Opp,
+            Dnyaneshwar Karyalay, M. Phule Road, Dombivali (West) 421202{" "}
           </p>
           <p className="text-sm">
             <strong>Email:</strong>{" "}

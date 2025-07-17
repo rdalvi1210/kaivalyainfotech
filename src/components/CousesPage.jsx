@@ -58,7 +58,7 @@ const CoursesPage = () => {
       setCurrentIndex((prevIndex) => {
         return prevIndex >= maxIndex ? 0 : prevIndex + 1;
       });
-    }, 3000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [maxIndex]);
 
