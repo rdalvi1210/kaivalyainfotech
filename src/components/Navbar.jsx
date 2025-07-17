@@ -75,7 +75,10 @@ const Navbar = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://kaivalyainfotechbackend.onrender.com/api/auth/register", registerData);
+      await axios.post(
+        "https://kaivalyainfotechbackend.onrender.com/api/auth/register",
+        registerData
+      );
       toast.success("Registration successful!");
       setIsRegisterOpen(false);
       setRegisterData({ name: "", email: "", password: "" });
@@ -122,7 +125,7 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-2xl font-extrabold text-main-red hover:text-hover-red cursor-pointer tracking-wide"
             >
-              KAIVALYA <span className="font-bold">INFOTECH</span>
+              KAIVALYA <span className="font-bold text-black">INFOTECH</span>
             </div>
 
             <div className="hidden md:flex space-x-8">
@@ -141,6 +144,9 @@ const Navbar = () => {
             <div className="hidden md:flex space-x-4 items-center">
               {currentUser ? (
                 <>
+                  <p className="text-main-red  font-semibold">
+                    {currentUser?.name},
+                  </p>
                   {currentUser.role === "admin" && (
                     <button
                       onClick={() => navigate("/admin")}
