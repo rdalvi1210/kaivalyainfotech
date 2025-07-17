@@ -72,9 +72,12 @@ const Admin = () => {
           axios.get("https://kaivalyainfotechbackend.onrender.com/courses", {
             withCredentials: true,
           }),
-          axios.get("https://kaivalyainfotechbackend.onrender.com/certificates", {
-            withCredentials: true,
-          }),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/certificates",
+            {
+              withCredentials: true,
+            }
+          ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/placements",
             {
@@ -543,7 +546,7 @@ const Admin = () => {
               className="border p-4 rounded shadow hover:shadow-lg relative"
             >
               <img
-                src={ `https://kaivalyainfotechbackend.onrender.com${place.imageUrl}"}
+                src={`https://kaivalyainfotechbackend.onrender.com${place.imageUrl}`}
                 alt={place.name}
                 className="w-full h-40 object-cover rounded mb-2"
               />
