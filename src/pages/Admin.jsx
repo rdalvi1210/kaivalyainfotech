@@ -101,7 +101,7 @@ const Admin = () => {
         setReviews(reviewsRes.data);
         setBanners(bannersRes.data);
         setLoading(false);
-      } catch (err) {
+      } catch ( err ) {
         setError("Failed to fetch data");
         setLoading(false);
       }
