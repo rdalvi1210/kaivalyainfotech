@@ -69,11 +69,14 @@ const Admin = () => {
           reviewsRes,
           bannersRes,
         ] = await Promise.all([
-          axios.get("https://kaivalyainfotechbackend.onrender.com/courses", {
-            withCredentials: true,
-          }),
           axios.get(
-            "https://kaivalyainfotechbackend.onrender.com/certificates",
+            "https://kaivalyainfotechbackend.onrender.com/api/courses",
+            {
+              withCredentials: true,
+            }
+          ),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/api/certificates",
             {
               withCredentials: true,
             }
@@ -84,15 +87,24 @@ const Admin = () => {
               withCredentials: true,
             }
           ),
-          axios.get("https://kaivalyainfotechbackend.onrender.com/auth/users", {
-            withCredentials: true,
-          }),
-          axios.get("https://kaivalyainfotechbackend.onrender.com/reviews", {
-            withCredentials: true,
-          }),
-          axios.get("https://kaivalyainfotechbackend.onrender.com/banners", {
-            withCredentials: true,
-          }),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/api/auth/users",
+            {
+              withCredentials: true,
+            }
+          ),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/api/reviews",
+            {
+              withCredentials: true,
+            }
+          ),
+          axios.get(
+            "https://kaivalyainfotechbackend.onrender.com/api/banners",
+            {
+              withCredentials: true,
+            }
+          ),
         ]);
         setCourses(coursesRes.data);
         setCertificates(certsRes.data);
@@ -101,7 +113,7 @@ const Admin = () => {
         setReviews(reviewsRes.data);
         setBanners(bannersRes.data);
         setLoading(false);
-      } catch ( err ) {
+      } catch (err) {
         setError("Failed to fetch data");
         setLoading(false);
       }
