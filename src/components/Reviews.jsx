@@ -25,7 +25,9 @@ const ReviewsPage = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/reviews");
+        const res = await axios.get(
+          "https://kaivalyainfotechbackend.onrender.com/api/reviews"
+        );
         setReviews(res.data);
       } catch (err) {
         console.error("Error fetching reviews", err);
@@ -113,10 +115,10 @@ const ReviewsPage = () => {
   return (
     <section
       id="reviews"
-      className="bg-[#fff8f1] min-h-[60vh] flex justify-center items-center overflow-hidden"
+      className="bg-[#fff8f1] md:min-h-[60vh] flex justify-center items-center overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full px-4">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-8 text-center md:text-left">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-8">
           What our Students Say...
         </h2>
 

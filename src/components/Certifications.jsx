@@ -83,7 +83,7 @@ const CertificationsPage = () => {
         className="bg-[#fff8f1] md:min-h-[80vh] flex justify-center items-center"
       >
         <div className="max-w-7xl w-full px-4">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-5 mt-5 md:mb-0  tracking-tight drop-shadow-md select-none">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-1 mt-8 md:mb-0  tracking-tight drop-shadow-md select-none">
             Our Students offer letter...
           </h2>
 
