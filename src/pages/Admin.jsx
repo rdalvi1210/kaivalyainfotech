@@ -277,7 +277,7 @@ const Admin = () => {
       else if (type === "banner")
         apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/banners/delete/${id}`;
       else if (type === "user")
-        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/auth/users/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/auth/delete/${id}`;
       else if (type === "review")
         apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/reviews/${id}`;
 
