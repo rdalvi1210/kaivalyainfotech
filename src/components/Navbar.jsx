@@ -208,7 +208,7 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-2xl font-extrabold text-main-red hover:text-hover-red cursor-pointer tracking-wide"
             >
-              KAIVALYA <span className="font-bold">INFOTECH</span>
+              KAIVALYA <span className="font-bold text-black">INFOTECH</span>
             </div>
 
             <div className="hidden md:flex space-x-8">
