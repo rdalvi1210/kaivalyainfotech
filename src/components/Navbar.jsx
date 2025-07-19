@@ -191,7 +191,7 @@ const Navbar = () => {
     "Courses",
     "Certifications",
     "Reviews",
-    "Internships",
+    "Interns",
     "Contact",
   ];
 
