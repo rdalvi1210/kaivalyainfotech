@@ -158,7 +158,7 @@ const Navbar = () => {
     try {
       await axios.post(
         "https://kaivalyainfotechbackend.onrender.com/api/auth/send-otp",
-        { email: registerData.email }
+        { email: registerData.email, name: registerData.name }
       );
       toast.success("OTP sent to your email!");
       setResendDisabled(true);
@@ -191,7 +191,7 @@ const Navbar = () => {
         toast.error("Invalid OTP.");
       }
     } catch (err) {
-      toast.error(err.response.data.message||"Server Error");
+      toast.error(err.response.data.message || "Server Error");
     } finally {
       setVerifyOtpLoading(false);
     }
