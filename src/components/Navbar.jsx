@@ -284,7 +284,7 @@ const Navbar = () => {
                     className="px-4 py-2 bg-main-red text-white font-semibold rounded hover:bg-hover-red transition flex justify-center items-center"
                     disabled={registerLoading}
                   >
-                    {registerLoading ? <Spinner /> : "Register"}
+                    {registerLoading ? <Spinner /> : "Sign Up"}
                   </button>
                 </>
               )}
@@ -364,7 +364,7 @@ const Navbar = () => {
                   }}
                   className="w-full text-left px-4 py-2 bg-main-red text-white rounded hover:bg-hover-red"
                 >
-                  Register
+                  Sign Up
                 </button>
               </>
             )}
@@ -482,8 +482,8 @@ const Navbar = () => {
                   disabled={registerLoading || sendOtpLoading}
                 />
                 {isVerified ? (
-                  <span className="text-green-600 font-semibold flex items-center">
-                    ✅ Verified
+                  <span className="text-green-600 font-semibold flex items-center border-green-500 border-2">
+                    Verified
                   </span>
                 ) : (
                   <button
