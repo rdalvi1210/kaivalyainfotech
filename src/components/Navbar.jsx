@@ -1,5 +1,5 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { LogOut, Menu, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -81,7 +81,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // OTP resend countdown timer effect
   useEffect(() => {
     let timer;
     if (resendDisabled && otpTimer > 0) {
@@ -153,7 +152,6 @@ const Navbar = () => {
       toast.error("Please enter your email first.");
       return;
     }
-
     setSendOtpLoading(true);
     try {
       await axios.post(
@@ -191,7 +189,7 @@ const Navbar = () => {
         toast.error("Invalid OTP.");
       }
     } catch (err) {
-      toast.error(err.response.data.message || "Server Error");
+      toast.error(err.response?.data?.message || "Server Error");
     } finally {
       setVerifyOtpLoading(false);
     }
@@ -238,6 +236,7 @@ const Navbar = () => {
               KAIVALYA <span className="font-bold text-black">INFOTECH</span>
             </div>
 
+            {/* Desktop menu */}
             <div className="hidden md:flex space-x-8">
               {links.map((item, i) => (
                 <a
@@ -251,6 +250,7 @@ const Navbar = () => {
               ))}
             </div>
 
+            {/* Desktop Login / Signup */}
             <div className="hidden md:flex space-x-4 items-center">
               {currentUser ? (
                 <>
@@ -290,10 +290,12 @@ const Navbar = () => {
               )}
             </div>
 
+            {/* Mobile toggle */}
             <div className="md:hidden">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="text-black"
+                aria-label="Toggle menu"
               >
                 {menuOpen ? <X /> : <Menu />}
               </button>
@@ -301,73 +303,90 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile menu */}
         <div
-          className={`fixed inset-0 z-50 bg-white shadow-lg transition-transform duration-300 transform ${
+          className={`fixed inset-0 z-50 bg-white transition-transform duration-300 transform overflow-y-auto ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
+          style={{
+            boxShadow: "4px 0 15px rgba(0,0,0,0.2)",
+            borderRight: "1px solid #ddd",
+          }}
         >
-          <div className="flex flex-col p-4 space-y-3">
+          <div className="flex flex-col p-6 max-w-sm mx-auto h-full">
             <button
               onClick={() => setMenuOpen(false)}
-              className="self-end cursor-pointer text-gray-500"
+              className="self-end cursor-pointer text-gray-500 text-3xl mb-8"
+              aria-label="Close menu"
             >
               <X />
             </button>
-            {links.map((item, i) => (
-              <a
-                key={i}
-                href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
-                className="block text-black hover:text-main-red transition"
-                onClick={() => setMenuOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-            {currentUser ? (
-              <>
-                {currentUser.role === "admin" && (
-                  <button
+
+            <nav
+              className="flex flex-col divide-y divide-gray-200 text-lg font-semibold text-black"
+              aria-label="Mobile Primary Navigation"
+            >
+              {links.map((item, i) => (
+                <a
+                  key={i}
+                  href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
+                  className="py-4 px-2 hover:text-main-red transition border-b border-gray-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </a>
+              ))}
+
+              {!currentUser && (
+                <>
+                  <a
                     onClick={() => {
-                      navigate("/admin");
+                      setIsLoginOpen(true);
                       setMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 border border-main-red text-main-red rounded hover:bg-main-red-10"
+                    className="py-4 px-2 cursor-pointer hover:text-main-red transition border-b border-gray-200 rounded"
                   >
-                    Admin Panel
-                  </button>
-                )}
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setMenuOpen(false);
-                  }}
-                  className="w-full text-left px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => {
-                    setIsLoginOpen(true);
-                    setMenuOpen(false);
-                  }}
-                  className="w-full text-left px-4 py-2 border border-main-red text-main-red rounded hover:bg-main-red-10"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => {
-                    setIsRegisterOpen(true);
-                    setMenuOpen(false);
-                  }}
-                  className="w-full text-left px-4 py-2 bg-main-red text-white rounded hover:bg-hover-red"
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
+                    Login
+                  </a>
+
+                  <a
+                    onClick={() => {
+                      setIsRegisterOpen(true);
+                      setMenuOpen(false);
+                    }}
+                    className="py-4 px-2 cursor-pointer hover:text-main-red transition rounded"
+                  >
+                    Sign Up
+                  </a>
+                </>
+              )}
+
+              {currentUser && (
+                <>
+                  {currentUser.role === "admin" && (
+                    <a
+                      onClick={() => {
+                        navigate("/admin");
+                        setMenuOpen(false);
+                      }}
+                      className="py-4 px-2 cursor-pointer hover:text-main-red transition border-b border-gray-200 rounded"
+                    >
+                      Admin Panel
+                    </a>
+                  )}
+
+                  <a
+                    onClick={() => {
+                      handleLogout();
+                      setMenuOpen(false);
+                    }}
+                    className="py-4 px-2 cursor-pointer hover:text-main-red transition rounded"
+                  >
+                    Logout
+                  </a>
+                </>
+              )}
+            </nav>
           </div>
         </div>
       </nav>
@@ -433,7 +452,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Register Modal with inline OTP verification */}
+      {/* Register Modal */}
       {isRegisterOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
           <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative">
@@ -482,7 +501,7 @@ const Navbar = () => {
                   disabled={registerLoading || sendOtpLoading}
                 />
                 {isVerified ? (
-                  <span className="text-green-600 font-semibold flex items-center border-green-500 border-2">
+                  <span className="text-green-600 font-semibold flex items-center border-green-500 border-2 px-3 py-1 rounded">
                     Verified
                   </span>
                 ) : (
@@ -507,7 +526,6 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Show OTP input and verify button only if not verified and OTP was sent */}
               {!isVerified && otpTimer > 0 && (
                 <>
                   <input
@@ -546,12 +564,13 @@ const Navbar = () => {
                 disabled={!isVerified || registerLoading}
                 className={`w-full py-2 flex justify-center items-center ${
                   isVerified
-                    ? "bg-main-red text-white hover:bg-hover-red"
-                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    ? "bg-main-red hover:bg-hover-red text-white cursor-pointer"
+                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
                 } rounded transition`}
               >
-                {registerLoading ? <Spinner /> : "Register"}
+                {registerLoading ? <Spinner /> : "Sign Up"}
               </button>
+
               <p className="text-center text-sm text-gray-500">
                 Already have an account?{" "}
                 <span
