@@ -138,7 +138,7 @@ const Navbar = () => {
       setRegisterData({ name: "", email: "", password: "" });
       setIsVerified(false);
     } catch (err) {
-      toast.error("Registration failed. Try a different email.");
+      toast.error(err.response?.data?.message || "Server Error");
     } finally {
       setRegisterLoading(false);
     }
