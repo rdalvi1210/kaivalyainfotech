@@ -1,5 +1,5 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { LogOut, Menu, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -68,17 +68,16 @@ const Navbar = () => {
       try {
         const decoded = jwtDecode(token);
         setCurrentUser(decoded);
-      } catch (err) {
-        console.error("Invalid token in sessionStorage");
+      } catch {
         sessionStorage.removeItem("token");
       }
     }
   }, [setCurrentUser]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -115,7 +114,7 @@ const Navbar = () => {
       } else {
         toast.error("Login failed: No token received");
       }
-    } catch (error) {
+    } catch {
       toast.error("Login failed. Please check your credentials.");
     } finally {
       setLoginLoading(false);
@@ -206,7 +205,7 @@ const Navbar = () => {
       sessionStorage.removeItem("token");
       toast.success("Logged out successfully.");
       navigate("/");
-    } catch (err) {
+    } catch {
       toast.error("Logout failed. Please try again.");
     }
   };
@@ -297,7 +296,7 @@ const Navbar = () => {
                 className="text-black"
                 aria-label="Toggle menu"
               >
-                {menuOpen ? <X /> : <Menu />}
+                {menuOpen ? "" : <Menu />}
               </button>
             </div>
           </div>
@@ -305,15 +304,20 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         <div
-          className={`fixed inset-0 z-50 bg-white transition-transform duration-300 transform overflow-y-auto ${
+          className={`fixed top-0 left-0 bottom-0 z-50 bg-white transition-transform duration-300 transform overflow-y-auto ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           style={{
+            width: "80vw",
+            maxWidth: "400px",
             boxShadow: "4px 0 15px rgba(0,0,0,0.2)",
             borderRight: "1px solid #ddd",
           }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile menu"
         >
-          <div className="flex flex-col p-6 max-w-sm mx-auto h-full">
+          <div className="flex flex-col p-6 h-full">
             <button
               onClick={() => setMenuOpen(false)}
               className="self-end cursor-pointer text-gray-500 text-3xl mb-8"
@@ -401,6 +405,7 @@ const Navbar = () => {
               onClick={() => setIsLoginOpen(false)}
               className="absolute top-3 right-4 text-2xl text-gray-500"
               disabled={loginLoading}
+              aria-label="Close login modal"
             >
               &times;
             </button>
@@ -416,6 +421,7 @@ const Navbar = () => {
                 }
                 className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                 disabled={loginLoading}
+                aria-label="Email"
               />
               <input
                 type="password"
@@ -427,6 +433,7 @@ const Navbar = () => {
                 }
                 className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                 disabled={loginLoading}
+                aria-label="Password"
               />
               <button
                 type="submit"
@@ -467,6 +474,7 @@ const Navbar = () => {
               }}
               className="absolute top-3 right-4 text-2xl text-gray-500"
               disabled={registerLoading}
+              aria-label="Close register modal"
             >
               &times;
             </button>
@@ -482,6 +490,7 @@ const Navbar = () => {
                 }
                 className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                 disabled={registerLoading}
+                aria-label="Full Name"
               />
 
               <div className="flex gap-2 items-center">
@@ -499,6 +508,7 @@ const Navbar = () => {
                   }}
                   className="flex-grow px-4 py-2 rounded border bg-gray-50 text-black"
                   disabled={registerLoading || sendOtpLoading}
+                  aria-label="Email"
                 />
                 {isVerified ? (
                   <span className="text-green-600 font-semibold flex items-center border-green-500 border-2 px-3 py-1 rounded">
@@ -514,6 +524,7 @@ const Navbar = () => {
                     }`}
                     onClick={handleSendOtp}
                     disabled={resendDisabled || sendOtpLoading}
+                    aria-label="Send OTP"
                   >
                     {sendOtpLoading ? (
                       <Spinner />
@@ -536,12 +547,14 @@ const Navbar = () => {
                     className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                     disabled={verifyOtpLoading}
                     required
+                    aria-label="OTP"
                   />
                   <button
                     type="button"
                     onClick={handleVerifyOtp}
                     disabled={verifyOtpLoading || otp.length === 0}
                     className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center"
+                    aria-label="Verify OTP"
                   >
                     {verifyOtpLoading ? <Spinner /> : "Verify OTP"}
                   </button>
@@ -558,19 +571,20 @@ const Navbar = () => {
                 }
                 className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                 disabled={registerLoading}
+                aria-label="Password"
               />
               <button
                 type="submit"
                 disabled={!isVerified || registerLoading}
-                className={`w-full py-2 flex justify-center items-center ${
+                className={`w-full py-2 text-white rounded transition flex justify-center items-center ${
                   isVerified
-                    ? "bg-main-red hover:bg-hover-red text-white cursor-pointer"
-                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
-                } rounded transition`}
+                    ? "bg-main-red hover:bg-hover-red"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                aria-disabled={!isVerified || registerLoading}
               >
-                {registerLoading ? <Spinner /> : "Sign Up"}
+                {registerLoading ? <Spinner /> : "Register"}
               </button>
-
               <p className="text-center text-sm text-gray-500">
                 Already have an account?{" "}
                 <span

@@ -8,7 +8,9 @@ const PlacedStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/placements");
+        const res = await axios.get(
+          "https://kaivalyainfotechbackend.onrender.com/api/placements"
+        );
         setStudents(res.data);
       } catch (err) {
         console.error("Error fetching placement data:", err);
@@ -39,7 +41,7 @@ const PlacedStudents = () => {
 
   return (
     <section
-      id="internships"
+      id="interns"
       className="py-12 px-4 sm:px-6 md:px-10 lg:px-14 bg-[#fff8f1]"
     >
       <div className="max-w-7xl mx-auto">
