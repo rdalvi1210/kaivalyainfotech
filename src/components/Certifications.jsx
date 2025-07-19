@@ -13,7 +13,9 @@ const CertificationsPage = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/certificates");
+        const res = await axios.get(
+          "https://kaivalyainfotechbackend.onrender.com/api/certificates"
+        );
         setCertifications(res.data);
       } catch (err) {
         console.error("Failed to fetch certificates:", err);
@@ -89,7 +91,7 @@ const CertificationsPage = () => {
 
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory space-x-4 scrollbar-hide py-6"
+            className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory space-x-4 scrollbar-hide py-6 md:px-2"
             tabIndex={0}
             aria-label="Certificate slider"
           >

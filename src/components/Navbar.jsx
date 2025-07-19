@@ -50,11 +50,9 @@ const Navbar = () => {
     password: "",
   });
 
+  // OTP related states
   const [isVerified, setIsVerified] = useState(false);
-  const [otpModal, setOtpModal] = useState(false);
   const [otp, setOtp] = useState("");
-
-  // Timer states for OTP resend
   const [otpTimer, setOtpTimer] = useState(0);
   const [resendDisabled, setResendDisabled] = useState(false);
 
@@ -127,6 +125,10 @@ const Navbar = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!isVerified) {
+      toast.error("Please verify your email before registering.");
+      return;
+    }
     setRegisterLoading(true);
     try {
       await axios.post(
@@ -137,6 +139,8 @@ const Navbar = () => {
       setIsRegisterOpen(false);
       setRegisterData({ name: "", email: "", password: "" });
       setIsVerified(false);
+      setOtp("");
+      setOtpTimer(0);
     } catch (err) {
       toast.error(err.response?.data?.message || "Server Error");
     } finally {
@@ -146,7 +150,7 @@ const Navbar = () => {
 
   const handleSendOtp = async () => {
     if (!registerData.email) {
-      toast.error("Please enter email first.");
+      toast.error("Please enter your email first.");
       return;
     }
 
@@ -154,19 +158,42 @@ const Navbar = () => {
     try {
       await axios.post(
         "https://kaivalyainfotechbackend.onrender.com/api/auth/send-otp",
-        { email: registerData.email },
-        { withCredentials: true }
+        { email: registerData.email }
       );
-      toast.success("OTP sent to email!");
-      setOtpModal(true);
+      toast.success("OTP sent to your email!");
       setResendDisabled(true);
-      setOtpTimer(60); // start 60 seconds timer
+      setOtpTimer(60);
     } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || "Failed to send OTP. Try again.";
-      toast.error(errorMessage);
+      toast.error(
+        err.response?.data?.message || "Failed to send OTP. Try again."
+      );
     } finally {
       setSendOtpLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp) {
+      toast.error("Please enter the OTP.");
+      return;
+    }
+    setVerifyOtpLoading(true);
+    try {
+      const res = await axios.post(
+        "https://kaivalyainfotechbackend.onrender.com/api/auth/verify-otp",
+        { email: registerData.email, otp }
+      );
+      if (res.data.success) {
+        toast.success("Email verified successfully!");
+        setIsVerified(true);
+        setOtp("");
+      } else {
+        toast.error("Invalid OTP.");
+      }
+    } catch (err) {
+      toast.error(err.response.data.message||"Server Error");
+    } finally {
+      setVerifyOtpLoading(false);
     }
   };
 
@@ -406,19 +433,18 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Register Modal */}
+      {/* Register Modal with inline OTP verification */}
       {isRegisterOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
           <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative">
             <button
               onClick={() => {
                 setIsRegisterOpen(false);
-                setRegisterData({
-                  name: "",
-                  email: "",
-                  password: "",
-                });
+                setRegisterData({ name: "", email: "", password: "" });
                 setIsVerified(false);
+                setOtp("");
+                setOtpTimer(0);
+                setResendDisabled(false);
               }}
               className="absolute top-3 right-4 text-2xl text-gray-500"
               disabled={registerLoading}
@@ -438,7 +464,8 @@ const Navbar = () => {
                 className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
                 disabled={registerLoading}
               />
-              <div className="flex gap-2">
+
+              <div className="flex gap-2 items-center">
                 <input
                   type="email"
                   placeholder="Email"
@@ -447,13 +474,16 @@ const Navbar = () => {
                   onChange={(e) => {
                     setRegisterData({ ...registerData, email: e.target.value });
                     setIsVerified(false);
+                    setOtp("");
+                    setOtpTimer(0);
+                    setResendDisabled(false);
                   }}
-                  className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                  className="flex-grow px-4 py-2 rounded border bg-gray-50 text-black"
                   disabled={registerLoading || sendOtpLoading}
                 />
                 {isVerified ? (
                   <span className="text-green-600 font-semibold flex items-center">
-                    ✅
+                    ✅ Verified
                   </span>
                 ) : (
                   <button
@@ -471,11 +501,35 @@ const Navbar = () => {
                     ) : resendDisabled ? (
                       `Retry in ${otpTimer}s`
                     ) : (
-                      "Verify"
+                      "Send OTP"
                     )}
                   </button>
                 )}
               </div>
+
+              {/* Show OTP input and verify button only if not verified and OTP was sent */}
+              {!isVerified && otpTimer > 0 && (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                    disabled={verifyOtpLoading}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={handleVerifyOtp}
+                    disabled={verifyOtpLoading || otp.length === 0}
+                    className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center"
+                  >
+                    {verifyOtpLoading ? <Spinner /> : "Verify OTP"}
+                  </button>
+                </>
+              )}
+
               <input
                 type="password"
                 placeholder="Password"
@@ -510,63 +564,6 @@ const Navbar = () => {
                   Login here
                 </span>
               </p>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* OTP Modal */}
-      {otpModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm relative">
-            <button
-              onClick={() => setOtpModal(false)}
-              className="absolute top-3 right-4 text-2xl text-gray-500"
-              disabled={verifyOtpLoading}
-            >
-              &times;
-            </button>
-            <h3 className="text-lg font-bold mb-4 text-black">Enter OTP</h3>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setVerifyOtpLoading(true);
-                try {
-                  const res = await axios.post(
-                    "https://kaivalyainfotechbackend.onrender.com/api/auth/verify-otp",
-                    { email: registerData.email, otp }
-                  );
-                  if (res.data.success) {
-                    toast.success("Email verified successfully!");
-                    setIsVerified(true);
-                    setOtpModal(false);
-                  } else {
-                    toast.error("Invalid OTP");
-                  }
-                } catch (err) {
-                  toast.error("Verification failed");
-                } finally {
-                  setVerifyOtpLoading(false);
-                }
-              }}
-              className="space-y-4"
-            >
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
-                required
-                disabled={verifyOtpLoading}
-              />
-              <button
-                type="submit"
-                className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center"
-                disabled={verifyOtpLoading}
-              >
-                {verifyOtpLoading ? <Spinner /> : "Verify OTP"}
-              </button>
             </form>
           </div>
         </div>
