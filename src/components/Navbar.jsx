@@ -437,7 +437,7 @@ const Navbar = () => {
               />
               <button
                 type="submit"
-                className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center"
+                className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center cursor-pointer"
                 disabled={loginLoading}
               >
                 {loginLoading ? <Spinner /> : "Login"}
@@ -507,7 +507,7 @@ const Navbar = () => {
                     setResendDisabled(false);
                   }}
                   className="flex-grow px-4 py-2 rounded border bg-gray-50 text-black"
-                  disabled={registerLoading || sendOtpLoading}
+                  disabled={registerLoading || sendOtpLoading || isVerified}
                   aria-label="Email"
                 />
                 {isVerified ? (
@@ -520,7 +520,7 @@ const Navbar = () => {
                     className={`text-sm px-3 py-1 rounded transition flex justify-center items-center ${
                       resendDisabled
                         ? "bg-gray-400 text-white cursor-not-allowed"
-                        : "bg-main-red text-white hover:bg-hover-red"
+                        : "bg-main-red text-white hover:bg-hover-red cursor-pointer"
                     }`}
                     onClick={handleSendOtp}
                     disabled={resendDisabled || sendOtpLoading}
@@ -553,7 +553,7 @@ const Navbar = () => {
                     type="button"
                     onClick={handleVerifyOtp}
                     disabled={verifyOtpLoading || otp.length === 0}
-                    className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center"
+                    className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center cursor-pointer"
                     aria-label="Verify OTP"
                   >
                     {verifyOtpLoading ? <Spinner /> : "Verify OTP"}
@@ -578,7 +578,7 @@ const Navbar = () => {
                 disabled={!isVerified || registerLoading}
                 className={`w-full py-2 text-white rounded transition flex justify-center items-center ${
                   isVerified
-                    ? "bg-main-red hover:bg-hover-red"
+                    ? "bg-main-red hover:bg-hover-red cursor-pointer"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 aria-disabled={!isVerified || registerLoading}
