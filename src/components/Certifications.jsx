@@ -103,7 +103,7 @@ const CertificationsPage = () => {
                   issuer,
                   description,
                   issueDate,
-                  certificate,
+                  certificateUrl,
                 }) => (
                   <div
                     key={_id}
@@ -114,7 +114,7 @@ const CertificationsPage = () => {
                       onClick={() =>
                         openModal({
                           title,
-                          certificate: `https://kaivalyainfotechbackend.onrender.com${certificate}`,
+                          certificate: certificateUrl,
                           issuer,
                           description,
                           issueDate,
@@ -128,8 +128,8 @@ const CertificationsPage = () => {
 
                     <div className="h-100 overflow-hidden bg-gradient-to-tr from-yellow-100 via-yellow-50 to-yellow-100 shadow-inner">
                       <img
-                        src={`https://kaivalyainfotechbackend.onrender.com${certificate}`}
-                        alt={`${title} certificate`}
+                        src={certificateUrl}
+                        alt={`${title} certicateUrl`}
                         className="w-full h-full object-contain object-center pointer-events-none select-none"
                         loading="lazy"
                         draggable={false}
@@ -183,8 +183,8 @@ const CertificationsPage = () => {
               {selectedCert.title}
             </h3>
             <img
-              src={selectedCert.certificate}
-              alt={`${selectedCert.title} certificate`}
+              src={selectedCert.certificateUrl}
+              alt={`${selectedCert.title} certificateUrl`}
               className="w-full h-auto rounded-md border"
               loading="lazy"
               draggable={false}

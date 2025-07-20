@@ -460,7 +460,7 @@ const Admin = () => {
               className="border p-4 rounded shadow hover:shadow-lg relative"
             >
               <img
-                src={`https://kaivalyainfotechbackend.onrender.com${course.imageUrl}`}
+                src={course.imageUrl}
                 alt={course.title}
                 className="w-full h-40 object-cover rounded mb-2"
               />
@@ -509,7 +509,7 @@ const Admin = () => {
               className="border p-4 rounded shadow hover:shadow-lg relative"
             >
               <img
-                src={`https://kaivalyainfotechbackend.onrender.com${cert.certificate}`}
+                src={cert.certificateUrl}
                 alt={cert.title}
                 className="w-full h-40 object-cover rounded mb-2"
               />
@@ -558,7 +558,7 @@ const Admin = () => {
               className="border p-4 rounded shadow hover:shadow-lg relative"
             >
               <img
-                src={`https://kaivalyainfotechbackend.onrender.com${place.imageUrl}`}
+                src={place.imageUrl}
                 alt={place.name}
                 className="w-full h-40 object-cover rounded mb-2"
               />
@@ -607,8 +607,8 @@ const Admin = () => {
             >
               {banner.imageUrl && (
                 <img
-                  src={`https://kaivalyainfotechbackend.onrender.com${banner.imageUrl}`}
-                  alt={banner._id}
+                  src={banner.imageUrl}
+                  alt={banner.title}
                   className="w-full h-40 object-cover rounded mb-2"
                 />
               )}

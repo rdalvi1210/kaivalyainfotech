@@ -67,7 +67,7 @@ const PlacedStudents = () => {
                 {/* Profile Image */}
                 <div className="relative w-24 h-24 mx-auto mb-4">
                   <img
-                    src={`https://kaivalyainfotechbackend.onrender.com${imageUrl}`}
+                    src={imageUrl}
                     alt={`${name} profile`}
                     className="rounded-full w-full h-full object-cover border-4 border-white shadow-md"
                   />

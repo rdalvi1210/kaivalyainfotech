@@ -51,7 +51,7 @@ const ImageSlider = () => {
           // 1600px × 500px
           <img
             key={index}
-            src={`https://kaivalyainfotechbackend.onrender.com${banner.imageUrl}`}
+            src={banner.imageUrl}
             alt={`Banner ${index + 1}`}
             loading="lazy"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out ${
