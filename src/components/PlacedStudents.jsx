@@ -83,11 +83,7 @@ const PlacedStudents = () => {
             ))}
           </div>
         ) : (
-          <div className="flex items-center justify-center min-h-[20rem] w-full">
-            <h3 className="text-2xl text-gray-500 dark:text-gray-400 text-center">
-              No students placed yet
-            </h3>
-          </div>
+          <div className="flex items-center justify-center min-h-[20rem] w-full"></div>
         )}
       </div>
 

@@ -149,11 +149,7 @@ const CertificationsPage = () => {
                 )
               )
             ) : (
-              <div className="flex items-center justify-center w-full h-96">
-                <h2 className="text-center text-2xl md:text-3xl font-semibold text-gray-500 dark:text-gray-400">
-                  No certifications available.
-                </h2>
-              </div>
+              <div className="flex items-center justify-center w-full h-96"></div>
             )}
           </div>
         </div>
@@ -186,7 +182,6 @@ const CertificationsPage = () => {
               src={selectedCert.certificateUrl}
               alt={`${selectedCert.title} certificateUrl`}
               className="w-full h-auto rounded-md border"
-              // loading="lazy"
               draggable={false}
             />
             <div className="mt-4 space-y-1 text-gray-700 dark:text-gray-300">

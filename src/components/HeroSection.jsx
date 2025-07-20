@@ -10,7 +10,9 @@ const ImageSlider = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await axios.get("https://kaivalyainfotechbackend.onrender.com/api/banners");
+        const res = await axios.get(
+          "https://kaivalyainfotechbackend.onrender.com/api/banners"
+        );
         setBanners(res.data);
       } catch (err) {
         console.error("Failed to load banners:", err);
@@ -37,9 +39,7 @@ const ImageSlider = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-gray-100 text-gray-500">
-        Loading banners...
-      </div>
+      <div className="h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-gray-100 text-gray-500"></div>
     );
   }
 

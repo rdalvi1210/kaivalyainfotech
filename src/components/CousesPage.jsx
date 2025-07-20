@@ -100,9 +100,7 @@ const CoursesPage = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <p className="text-main-red dark:text-gray-300">Loading courses...</p>
-      </div>
+      <div className="flex justify-center items-center min-h-[50vh]"></div>
     );
 
   if (error)
@@ -222,11 +220,7 @@ const CoursesPage = () => {
               })}
             </div>
           ) : (
-            <div className="flex items-center justify-center w-full min-h-[24rem]">
-              <h2 className="text-2xl md:text-3xl font-semibold text-gray-500 dark:text-gray-400 text-center">
-                No courses available
-              </h2>
-            </div>
+            <div className="flex items-center justify-center w-full min-h-[24rem]"></div>
           )}
         </div>
       </div>
