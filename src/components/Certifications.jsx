@@ -114,7 +114,7 @@ const CertificationsPage = () => {
                       onClick={() =>
                         openModal({
                           title,
-                          certificate: certificateUrl,
+                          certificateUrl,
                           issuer,
                           description,
                           issueDate,
@@ -186,7 +186,7 @@ const CertificationsPage = () => {
               src={selectedCert.certificateUrl}
               alt={`${selectedCert.title} certificateUrl`}
               className="w-full h-auto rounded-md border"
-              loading="lazy"
+              // loading="lazy"
               draggable={false}
             />
             <div className="mt-4 space-y-1 text-gray-700 dark:text-gray-300">
