@@ -6,8 +6,9 @@ import { MdAdminPanelSettings } from "react-icons/md";
 
 const Admin = () => {
   // States
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false); // Loading state for buttons
 
   // Courses
   const [courses, setCourses] = useState([]);
@@ -175,6 +176,7 @@ const Admin = () => {
     let url = "";
     let dataToSend;
     let isEdit = Boolean(editId);
+    setButtonLoading(true); // Start loading for button
     try {
       if (type === "course") {
         url = isEdit
@@ -259,6 +261,8 @@ const Admin = () => {
       resetForm();
     } catch (err) {
       toast.error(`Failed to ${isEdit ? "update" : "add"} ${type}`);
+    } finally {
+      setButtonLoading(false); // Stop loading for button
     }
   };
 
@@ -266,6 +270,7 @@ const Admin = () => {
   const handleDelete = async (type, id) => {
     if (!window.confirm(`Are you sure you want to delete this ${type}?`))
       return;
+    setButtonLoading(true); // Start loading for button
     try {
       let apiUrl = "";
       if (type === "course")
@@ -275,7 +280,7 @@ const Admin = () => {
       else if (type === "placement")
         apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/placements/delete/${id}`;
       else if (type === "banner")
-        apiUrl =  `https://kaivalyainfotechbackend.onrender.com/api/banners/delete/${id}`;
+        apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/banners/delete/${id}`;
       else if (type === "user")
         apiUrl = `https://kaivalyainfotechbackend.onrender.com/api/auth/delete/${id}`;
       else if (type === "review")
@@ -297,11 +302,14 @@ const Admin = () => {
       toast.success(`${type} deleted successfully`);
     } catch {
       toast.error(`Failed to delete ${type}`);
+    } finally {
+      setButtonLoading(false); // Stop loading for button
     }
   };
 
   // Promote user to admin
   const handleMakeAdmin = async (id) => {
+    setButtonLoading(true); // Start loading for button
     try {
       await axios.put(
         `https://kaivalyainfotechbackend.onrender.com/api/auth/make-admin/${id}`,
@@ -314,22 +322,30 @@ const Admin = () => {
       toast.success("User  promoted to admin");
     } catch {
       toast.error("Failed to promote user");
+    } finally {
+      setButtonLoading(false); // Stop loading for button
     }
   };
 
-  // UI loaders
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-600">
-        Loading...
-      </div>
-    );
-  if (error)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
-        {error}
-      </div>
-    );
+  // Remove admin privileges
+  const handleRemoveAdmin = async (id) => {
+    setButtonLoading(true); // Start loading for button
+    try {
+      await axios.put(
+        `https://kaivalyainfotechbackend.onrender.com/api/auth/remove-admin/${id}`,
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+      setUsers(users.map((u) => (u._id === id ? { ...u, role: "user" } : u)));
+      toast.success("User  removed from admin");
+    } catch {
+      toast.error("Failed to remove admin");
+    } finally {
+      setButtonLoading(false); // Stop loading for button
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 text-gray-800 space-y-16">
@@ -347,7 +363,7 @@ const Admin = () => {
           onChange={(e) => setSearchUsers(e.target.value)}
           className="border p-2 rounded w-full max-w-md mb-4"
         />
-        <div className="overflow-x-auto border rounded">
+        <div className="overflow-x-auto border rounded max-h-60 overflow-y-scroll">
           <table className="min-w-full bg-white">
             <thead className="bg-orange-600 text-white">
               <tr>
@@ -362,26 +378,110 @@ const Admin = () => {
                 .filter((u) =>
                   u.name.toLowerCase().includes(searchUsers.toLowerCase())
                 )
+                .slice(0, 10) // Show only 10 users
                 .map((user) => (
                   <tr key={user._id} className="border-t hover:bg-gray-100">
                     <td className="py-2 px-4">{user.name}</td>
                     <td className="py-2 px-4">{user.email}</td>
-                    <td className="py-2 px-4">{user.role || "User "}</td>
+                    <td className="py-2 px-4">{user.role || "User  "}</td>
                     <td className="py-2 px-4 flex gap-3">
                       <button
                         onClick={() => handleDelete("user", user._id)}
-                        className="text-red-600 hover:text-red-800"
+                        className="text-red-600 hover:text-red-800 cursor-pointer"
                         title="Delete user"
+                        disabled={buttonLoading} // Disable button while loading
                       >
-                        <FaTrash size={18} />
+                        {buttonLoading ? (
+                          <svg
+                            className="animate-spin h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                        ) : (
+                          <FaTrash size={22} />
+                        )}
                       </button>
-                      {user.role !== "admin" && (
+                      {user.role !== "admin" ? (
                         <button
                           onClick={() => handleMakeAdmin(user._id)}
                           className="text-green-600 hover:text-green-800"
                           title="Promote to admin"
+                          disabled={buttonLoading} // Disable button while loading
                         >
-                          <MdAdminPanelSettings size={20} />
+                          {buttonLoading ? (
+                            <svg
+                              className="animate-spin h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v8H4z"
+                              />
+                            </svg>
+                          ) : (
+                            <MdAdminPanelSettings size={20} />
+                          )}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleRemoveAdmin(user._id)}
+                          className="text-yellow-600 cursor-pointer hover:text-yellow-800"
+                          title="Remove admin"
+                          disabled={buttonLoading} // Disable button while loading
+                        >
+                          {buttonLoading ? (
+                            <svg
+                              className="animate-spin h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v8H4z"
+                              />
+                            </svg>
+                          ) : (
+                            <span>
+                              {" "}
+                              <MdAdminPanelSettings color="red" size={30} />
+                            </span>
+                          )}
                         </button>
                       )}
                     </td>
@@ -392,7 +492,7 @@ const Admin = () => {
         </div>
       </section>
 
-      {/* REVIEWS */}
+      {/* REV IEWS */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
         <input
@@ -431,8 +531,32 @@ const Admin = () => {
                         onClick={() => handleDelete("review", review._id)}
                         className="text-red-600 hover:text-red-800"
                         title="Delete review"
+                        disabled={buttonLoading} // Disable button while loading
                       >
-                        <FaTrash size={18} />
+                        {buttonLoading ? (
+                          <svg
+                            className="animate-spin h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                        ) : (
+                          <FaTrash size={18} />
+                        )}
                       </button>
                     </td>
                   </tr>
@@ -720,9 +844,40 @@ const Admin = () => {
                     </button>
                     <button
                       type="submit"
-                      className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer"
+                      className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
+                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={buttonLoading} // Disable button while loading
                     >
-                      {editId ? "Update Course" : "Add Course"}
+                      {buttonLoading ? (
+                        <span className="flex items-center">
+                          <svg
+                            className="animate-spin h-5 w-5 mr-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                          {editId ? "Updating..." : "Adding..."}
+                        </span>
+                      ) : editId ? (
+                        "Update Course"
+                      ) : (
+                        "Add Course"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -809,9 +964,40 @@ const Admin = () => {
                     </button>
                     <button
                       type="submit"
-                      className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer"
+                      className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
+                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={buttonLoading}
                     >
-                      {editId ? "Update Certificate" : "Add Certificate"}
+                      {buttonLoading ? (
+                        <span className="flex items-center">
+                          <svg
+                            className="animate-spin h-5 w-5 mr-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                          {editId ? "Updating..." : "Adding..."}
+                        </span>
+                      ) : editId ? (
+                        "Update Certificate"
+                      ) : (
+                        "Add Certificate"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -884,9 +1070,40 @@ const Admin = () => {
                     </button>
                     <button
                       type="submit"
-                      className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer"
+                      className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
+                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={buttonLoading}
                     >
-                      {editId ? "Update Placement" : "Add Placement"}
+                      {buttonLoading ? (
+                        <span className="flex items-center">
+                          <svg
+                            className="animate-spin h-5 w-5 mr-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                          {editId ? "Updating..." : "Adding..."}
+                        </span>
+                      ) : editId ? (
+                        "Update Placement"
+                      ) : (
+                        "Add Placement"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -923,9 +1140,40 @@ const Admin = () => {
                     </button>
                     <button
                       type="submit"
-                      className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer"
+                      className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
+                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      disabled={buttonLoading}
                     >
-                      {editId ? "Update Banner" : "Add Banner"}
+                      {buttonLoading ? (
+                        <span className="flex items-center">
+                          <svg
+                            className="animate-spin h-5 w-5 mr-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                          {editId ? "Updating..." : "Adding..."}
+                        </span>
+                      ) : editId ? (
+                        "Update Banner"
+                      ) : (
+                        "Add Banner"
+                      )}
                     </button>
                   </div>
                 </form>
