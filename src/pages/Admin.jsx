@@ -8,7 +8,7 @@ const Admin = () => {
   // States
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [buttonLoading, setButtonLoading] = useState(false); // Loading state for buttons
+  const [buttonLoading, setButtonLoading] = useState({}); // Loading state for buttons
 
   // Courses
   const [courses, setCourses] = useState([]);
@@ -176,7 +176,7 @@ const Admin = () => {
     let url = "";
     let dataToSend;
     let isEdit = Boolean(editId);
-    setButtonLoading(true); // Start loading for button
+    setButtonLoading((prev) => ({ ...prev, [type]: true })); // Start loading for button
     try {
       if (type === "course") {
         url = isEdit
@@ -262,7 +262,7 @@ const Admin = () => {
     } catch (err) {
       toast.error(`Failed to ${isEdit ? "update" : "add"} ${type}`);
     } finally {
-      setButtonLoading(false); // Stop loading for button
+      setButtonLoading((prev) => ({ ...prev, [type]: false })); // Stop loading for button
     }
   };
 
@@ -270,7 +270,7 @@ const Admin = () => {
   const handleDelete = async (type, id) => {
     if (!window.confirm(`Are you sure you want to delete this ${type}?`))
       return;
-    setButtonLoading(true); // Start loading for button
+    setButtonLoading((prev) => ({ ...prev, [type]: true })); // Start loading for button
     try {
       let apiUrl = "";
       if (type === "course")
@@ -303,13 +303,13 @@ const Admin = () => {
     } catch {
       toast.error(`Failed to delete ${type}`);
     } finally {
-      setButtonLoading(false); // Stop loading for button
+      setButtonLoading((prev) => ({ ...prev, [type]: false })); // Stop loading for button
     }
   };
 
   // Promote user to admin
   const handleMakeAdmin = async (id) => {
-    setButtonLoading(true); // Start loading for button
+    setButtonLoading((prev) => ({ ...prev, [id]: true })); // Start loading for button
     try {
       await axios.put(
         `https://kaivalyainfotechbackend.onrender.com/api/auth/make-admin/${id}`,
@@ -323,13 +323,13 @@ const Admin = () => {
     } catch {
       toast.error("Failed to promote user");
     } finally {
-      setButtonLoading(false); // Stop loading for button
+      setButtonLoading((prev) => ({ ...prev, [id]: false })); // Stop loading for button
     }
   };
 
   // Remove admin privileges
   const handleRemoveAdmin = async (id) => {
-    setButtonLoading(true); // Start loading for button
+    setButtonLoading((prev) => ({ ...prev, [id]: true })); // Start loading for button
     try {
       await axios.put(
         `https://kaivalyainfotechbackend.onrender.com/api/auth/remove-admin/${id}`,
@@ -343,7 +343,7 @@ const Admin = () => {
     } catch {
       toast.error("Failed to remove admin");
     } finally {
-      setButtonLoading(false); // Stop loading for button
+      setButtonLoading((prev) => ({ ...prev, [id]: false })); // Stop loading for button
     }
   };
 
@@ -389,9 +389,9 @@ const Admin = () => {
                         onClick={() => handleDelete("user", user._id)}
                         className="text-red-600 hover:text-red-800 cursor-pointer"
                         title="Delete user"
-                        disabled={buttonLoading} // Disable button while loading
+                        disabled={buttonLoading[user._id]} // Disable button while loading
                       >
-                        {buttonLoading ? (
+                        {buttonLoading[user._id] ? (
                           <svg
                             className="animate-spin h-5 w-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -421,9 +421,9 @@ const Admin = () => {
                           onClick={() => handleMakeAdmin(user._id)}
                           className="text-green-600 hover:text-green-800"
                           title="Promote to admin"
-                          disabled={buttonLoading} // Disable button while loading
+                          disabled={buttonLoading[user._id]} // Disable button while loading
                         >
-                          {buttonLoading ? (
+                          {buttonLoading[user._id] ? (
                             <svg
                               className="animate-spin h-5 w-5"
                               xmlns="http://www.w3.org/2000/svg"
@@ -453,9 +453,9 @@ const Admin = () => {
                           onClick={() => handleRemoveAdmin(user._id)}
                           className="text-yellow-600 cursor-pointer hover:text-yellow-800"
                           title="Remove admin"
-                          disabled={buttonLoading} // Disable button while loading
+                          disabled={buttonLoading[user._id]} // Disable button while loading
                         >
-                          {buttonLoading ? (
+                          {buttonLoading[user._id] ? (
                             <svg
                               className="animate-spin h-5 w-5"
                               xmlns="http://www.w3.org/2000/svg"
@@ -471,14 +471,13 @@ const Admin = () => {
                                 strokeWidth="4"
                               />
                               <path
-                                className="opacity-75"
+                                className="opacity -75"
                                 fill="currentColor"
                                 d="M4 12a8 8 0 018-8v8H4z"
                               />
                             </svg>
                           ) : (
                             <span>
-                              {" "}
                               <MdAdminPanelSettings color="red" size={30} />
                             </span>
                           )}
@@ -492,7 +491,7 @@ const Admin = () => {
         </div>
       </section>
 
-      {/* REV IEWS */}
+      {/* REVIEWS */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
         <input
@@ -531,9 +530,9 @@ const Admin = () => {
                         onClick={() => handleDelete("review", review._id)}
                         className="text-red-600 hover:text-red-800"
                         title="Delete review"
-                        disabled={buttonLoading} // Disable button while loading
+                        disabled={buttonLoading[review._id]} // Disable button while loading
                       >
-                        {buttonLoading ? (
+                        {buttonLoading[review._id] ? (
                           <svg
                             className="animate-spin h-5 w-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -845,11 +844,13 @@ const Admin = () => {
                     <button
                       type="submit"
                       className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
-                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                        buttonLoading["course"]
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
-                      disabled={buttonLoading} // Disable button while loading
+                      disabled={buttonLoading["course"]} // Disable button while loading
                     >
-                      {buttonLoading ? (
+                      {buttonLoading["course"] ? (
                         <span className="flex items-center">
                           <svg
                             className="animate-spin h-5 w-5 mr-3"
@@ -965,11 +966,13 @@ const Admin = () => {
                     <button
                       type="submit"
                       className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
-                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                        buttonLoading["certificate"]
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
-                      disabled={buttonLoading}
+                      disabled={buttonLoading["certificate"]}
                     >
-                      {buttonLoading ? (
+                      {buttonLoading["certificate"] ? (
                         <span className="flex items-center">
                           <svg
                             className="animate-spin h-5 w-5 mr-3"
@@ -1071,11 +1074,13 @@ const Admin = () => {
                     <button
                       type="submit"
                       className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
-                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                        buttonLoading["placement"]
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
-                      disabled={buttonLoading}
+                      disabled={buttonLoading["placement"]}
                     >
-                      {buttonLoading ? (
+                      {buttonLoading["placement"] ? (
                         <span className="flex items-center">
                           <svg
                             className="animate-spin h-5 w-5 mr-3"
@@ -1141,11 +1146,13 @@ const Admin = () => {
                     <button
                       type="submit"
                       className={`bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 cursor-pointer ${
-                        buttonLoading ? "opacity-50 cursor-not-allowed" : ""
+                        buttonLoading["banner"]
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
-                      disabled={buttonLoading}
+                      disabled={buttonLoading["banner"]}
                     >
-                      {buttonLoading ? (
+                      {buttonLoading["banner"] ? (
                         <span className="flex items-center">
                           <svg
                             className="animate-spin h-5 w-5 mr-3"
