@@ -67,7 +67,7 @@ const Navbar = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setCurrentUser (decoded);
+        setCurrentUser(decoded);
       } catch {
         sessionStorage.removeItem("token");
       }
@@ -255,7 +255,7 @@ const Navbar = () => {
             {/* Display logged-in user's name */}
             {currentUser  && (
               <div className="hidden md:flex items-center text-black dark:text-white">
-                <span className="mr-4">Welcome, {currentUser .name}!</span>
+                <span className="mr-4">Welcome, {currentUser.name}!</span>
               </div>
             )}
 
