@@ -253,15 +253,14 @@ const Navbar = () => {
                   <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-main-red transition-all group-hover:w-full"></span>
                 </a>
               ))}
+              {/* Display logged-in user's name */}
+              {currentUser && (
+                <div className="flex items-center space-x-2">
+                  <User className="w-5 h-5 text-gray-700 dark:text-white" />
+                  <span>{currentUser.name?.split(" ")[0]}</span>
+                </div>
+              )}
             </div>
-
-            {/* Display logged-in user's name */}
-            {currentUser && (
-              <div className="flex items-center space-x-2">
-                <User className="w-5 h-5 text-gray-700 dark:text-white" />
-                <span>{currentUser.name?.split(" ")[0]}</span>
-              </div>
-            )}
 
             {/* Desktop Login / Signup */}
             <div className="hidden md:flex space-x-4 items-center">
