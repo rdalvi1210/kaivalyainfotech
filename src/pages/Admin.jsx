@@ -381,73 +381,72 @@ const Admin = () => {
                       >
                         <FaTrash size={22} />
                       </button>
-                      {user.role !== "admin" ? (
-                        <button
-                          onClick={() => handleMakeAdmin(user._id)}
-                          className="text-green-600 hover:text-green-800"
-                          title="Promote to admin"
-                          disabled={buttonLoading[user._id]} // Disable button while loading
-                        >
-                          {buttonLoading[user._id] ? (
-                            <svg
-                              className="animate-spin h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8v8H4z"
-                              />
-                            </svg>
-                          ) : (
-                            <MdAdminPanelSettings size={30} />
-                          )}
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleRemoveAdmin(user._id)}
-                          className="text-yellow-600 cursor-pointer hover:text-yellow-700"
-                          title="Remove admin"
-                          disabled={buttonLoading[user._id]} // Disable button while loading
-                        >
-                          {buttonLoading[user._id] ? (
-                            <svg
-                              className="animate-spin h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8v8H4z"
-                              />
-                            </svg>
-                          ) : (
-                            <span>
+                      {currentUser.role !== user.role &&
+                        (user.role !== "admin" ? (
+                          <button
+                            onClick={() => handleMakeAdmin(user._id)}
+                            className="text-green-600 hover:text-green-800"
+                            title="Promote to admin"
+                            disabled={buttonLoading[user._id]}
+                          >
+                            {buttonLoading[user._id] ? (
+                              <svg
+                                className="animate-spin h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  strokeWidth="4"
+                                />
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8v8H4z"
+                                />
+                              </svg>
+                            ) : (
+                              <MdAdminPanelSettings size={30} />
+                            )}
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleRemoveAdmin(user._id)}
+                            className="text-yellow-600 cursor-pointer hover:text-yellow-700"
+                            title="Remove admin"
+                            disabled={buttonLoading[user._id]}
+                          >
+                            {buttonLoading[user._id] ? (
+                              <svg
+                                className="animate-spin h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  strokeWidth="4"
+                                />
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8v8H4z"
+                                />
+                              </svg>
+                            ) : (
                               <MdAdminPanelSettings color="red" size={30} />
-                            </span>
-                          )}
-                        </button>
-                      )}
+                            )}
+                          </button>
+                        ))}
                     </td>
                   </tr>
                 ))}
