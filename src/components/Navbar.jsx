@@ -235,7 +235,10 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-2xl font-extrabold text-main-red hover:text-hover-red cursor-pointer tracking-wide"
             >
-              KAIVALYA <span className="font-bold text-black">INFOTECH</span>
+              KAIVALYA{" "}
+              <span className="font-bold text-black dark:text-white">
+                INFOTECH
+              </span>
             </div>
 
             {/* Desktop menu */}
@@ -255,7 +258,7 @@ const Navbar = () => {
             {/* Display logged-in user's name */}
             {currentUser && (
               <div className="hidden md:flex items-center text-black dark:text-white">
-                <span className="mr-4">Welcome, {currentUser.name}!</span>
+                <span className="mr-4">{currentUser.name?.split(" ")[0]}!</span>
               </div>
             )}
 
