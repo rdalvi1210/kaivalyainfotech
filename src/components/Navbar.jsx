@@ -405,7 +405,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <div className="pt-20" />
+      <div className="pt-10 dark:bg-gray-800 " />
 
       {/* Login Modal */}
       {isLoginOpen && (
