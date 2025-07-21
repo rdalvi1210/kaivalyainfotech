@@ -263,7 +263,7 @@ const CoursesPage = () => {
                 </span>
 
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-base sm:text-lg">
-                  {selectedCourse.details || selectedCourse.description}
+                  {selectedCourse?.details || selectedCourse.description}
                 </p>
               </div>
             </div>
