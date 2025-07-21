@@ -101,20 +101,20 @@ const CertificationsPage = () => {
 
           {/* Left Button */}
           <button
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
+            className="absolute top-1/2 left-3 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
             onClick={scrollLeft}
             aria-label="Scroll Left"
           >
-            <ChevronLeft className="w-6 h-6 text-main-red" />
+            <ChevronLeft className="w-7 h-7 text-main-red" />
           </button>
 
           {/* Right Button */}
           <button
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
+            className="absolute top-1/2 right-3 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
             onClick={scrollRight}
             aria-label="Scroll Right"
           >
-            <ChevronRight className="w-6 h-6 text-main-red" />
+            <ChevronRight className="w-7 h-7 text-main-red" />
           </button>
 
           <div
