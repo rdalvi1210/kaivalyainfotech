@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { MyContext } from "../context/MyContext";
 
 const Admin = () => {
   // States
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState({}); // Loading state for buttons
+  const { currentUser } = useContext(MyContext);
 
   // Courses
   const [courses, setCourses] = useState([]);
