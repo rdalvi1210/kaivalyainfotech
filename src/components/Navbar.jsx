@@ -227,7 +227,7 @@ const Navbar = () => {
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled ? "bg-white/90 shadow-md" : "bg-white"
-        }`}
+        } dark:bg-gray-800`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -244,7 +244,7 @@ const Navbar = () => {
                 <a
                   key={i}
                   href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
-                  className="relative group text-black hover:text-main-red transition"
+                  className="relative group text-black hover:text-main-red transition dark:text-white"
                 >
                   {item}
                   <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-main-red transition-all group-hover:w-full"></span>
@@ -309,7 +309,7 @@ const Navbar = () => {
         <div
           className={`fixed top-0 left-0 bottom-0 z-50 bg-white transition-transform duration-300 transform overflow-y-auto ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          } dark:bg-gray-800`}
           style={{
             width: "80vw",
             maxWidth: "400px",
@@ -330,7 +330,7 @@ const Navbar = () => {
             </button>
 
             <nav
-              className="flex flex-col divide-y divide-gray-200 text-lg font-semibold text-black"
+              className="flex flex-col divide-y divide-gray-200 text-lg font-semibold text-black dark:text-white"
               aria-label="Mobile Primary Navigation"
             >
               {links.map((item, i) => (
@@ -398,12 +398,10 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <div className="pt-20" />
-
       {/* Login Modal */}
       {isLoginOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md relative">
             <button
               onClick={() => setIsLoginOpen(false)}
               className="absolute top-3 right-4 text-2xl text-gray-500"
@@ -412,7 +410,9 @@ const Navbar = () => {
             >
               &times;
             </button>
-            <h3 className="text-xl font-bold mb-4 text-black">Login</h3>
+            <h3 className="text-xl font-bold mb-4 text-black dark:text-white">
+              Login
+            </h3>
             <form onSubmit={handleLogin} className="space-y-4">
               <input
                 type="email"
@@ -422,7 +422,7 @@ const Navbar = () => {
                 onChange={(e) =>
                   setLoginData({ ...loginData, email: e.target.value })
                 }
-                className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                className="w-full px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                 disabled={loginLoading}
                 aria-label="Email"
               />
@@ -434,7 +434,7 @@ const Navbar = () => {
                 onChange={(e) =>
                   setLoginData({ ...loginData, password: e.target.value })
                 }
-                className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                className="w-full px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                 disabled={loginLoading}
                 aria-label="Password"
               />
@@ -465,7 +465,7 @@ const Navbar = () => {
       {/* Register Modal */}
       {isRegisterOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md relative">
             <button
               onClick={() => {
                 setIsRegisterOpen(false);
@@ -481,7 +481,9 @@ const Navbar = () => {
             >
               &times;
             </button>
-            <h3 className="text-xl font-bold mb-4 text-black">Register</h3>
+            <h3 className="text-xl font-bold mb-4 text-black dark:text-white">
+              Register
+            </h3>
             <form onSubmit={handleRegister} className="space-y-4">
               <input
                 type="text"
@@ -491,7 +493,7 @@ const Navbar = () => {
                 onChange={(e) =>
                   setRegisterData({ ...registerData, name: e.target.value })
                 }
-                className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                className="w-full px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                 disabled={registerLoading}
                 aria-label="Full Name"
               />
@@ -509,7 +511,7 @@ const Navbar = () => {
                     setOtpTimer(0);
                     setResendDisabled(false);
                   }}
-                  className="flex-grow px-4 py-2 rounded border bg-gray-50 text-black"
+                  className="flex-grow px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                   disabled={registerLoading || sendOtpLoading || isVerified}
                   aria-label="Email"
                 />
@@ -547,7 +549,7 @@ const Navbar = () => {
                     placeholder="Enter OTP"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                    className="w-full px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                     disabled={verifyOtpLoading}
                     required
                     aria-label="OTP"
@@ -572,7 +574,7 @@ const Navbar = () => {
                 onChange={(e) =>
                   setRegisterData({ ...registerData, password: e.target.value })
                 }
-                className="w-full px-4 py-2 rounded border bg-gray-50 text-black"
+                className="w-full px-4 py-2 rounded border bg-gray-50 dark:bg-gray-700 text-black dark:text-white"
                 disabled={registerLoading}
                 aria-label="Password"
               />

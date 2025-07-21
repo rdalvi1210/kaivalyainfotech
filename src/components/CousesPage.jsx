@@ -113,7 +113,7 @@ const CoursesPage = () => {
   return (
     <section
       id="courses"
-      className="bg-[#fff8f1]  relative md:min-h-[80vh] flex items-center justify-center"
+      className="bg-[#fff8f1] dark:bg-gray-900 relative md:min-h-[80vh] flex items-center justify-center"
     >
       <div className="max-w-7xl m-auto w-full px-4 sm:px-6 lg:px-0">
         <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-5 mt-5 md:mb-4 tracking-tight">

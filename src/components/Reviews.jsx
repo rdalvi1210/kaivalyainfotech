@@ -115,10 +115,10 @@ const ReviewsPage = () => {
   return (
     <section
       id="reviews"
-      className="bg-[#fff8f1] md:min-h-[60vh] flex justify-center items-center overflow-hidden"
+      className="bg-[#fff8f1] dark:bg-[#1a1a1a] md:min-h-[60vh] flex justify-center items-center overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full px-4">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-8">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-8">
           What our Students Say...
         </h2>
 
@@ -126,7 +126,7 @@ const ReviewsPage = () => {
         <div className="relative flex items-center">
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 z-20 p-2 rounded-full bg-white/90 shadow-md hover:scale-110 transition text-main-red hidden sm:block"
+            className="absolute left-0 z-20 p-2 rounded-full bg-white/90 dark:bg-gray-800 shadow-md hover:scale-110 transition text-main-red hidden sm:block"
             aria-label="Scroll Left"
           >
             <ChevronLeft size={28} />
@@ -138,7 +138,7 @@ const ReviewsPage = () => {
             style={{ scrollSnapType: "x mandatory", scrollPaddingLeft: "1rem" }}
           >
             {reviews.length === 0 ? (
-              <div className="w-full text-center text-gray-600 text-xl font-semibold min-h-[200px] flex items-center justify-center">
+              <div className="w-full text-center text-gray-600 dark:text-gray-300 text-xl font-semibold min-h-[200px] flex items-center justify-center">
                 No reviews yet
               </div>
             ) : (
@@ -146,8 +146,8 @@ const ReviewsPage = () => {
                 <article
                   key={_id}
                   className="flex-shrink-0 w-[90vw] max-w-xs sm:w-72 sm:max-w-sm
-                    bg-gradient-to-br from-[#fff0eb] via-[#ffe4d9] to-[#ffdad0]
-                    text-gray-800 border border-main-red
+                    bg-gradient-to-br from-[#fff0eb] via-[#ffe4d9] to-[#ffdad0] dark:from-[#2d2d2d] dark:via-[#3c3c3c] dark:to-[#4a4a4a]
+                    text-gray-800 dark:text-gray-200 border border-main-red
                     shadow-md rounded-xl p-6
                     flex flex-col justify-between
                     scroll-snap-align-start transition-all hover:shadow-lg hover:scale-[1.02]"
@@ -169,7 +169,7 @@ const ReviewsPage = () => {
 
                     {/* Date */}
                     <time
-                      className="text-xs text-gray-600"
+                      className="text-xs text-gray-600 dark:text-gray-400"
                       dateTime={new Date(date).toISOString()}
                     >
                       {new Date(date).toLocaleDateString(undefined, {
@@ -186,7 +186,7 @@ const ReviewsPage = () => {
 
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 z-20 p-2 rounded-full bg-white/90 shadow-md hover:scale-110 transition text-main-red hidden sm:block"
+            className="absolute right-0 z-20 p-2 rounded-full bg-white/90 dark:bg-gray-800 shadow-md hover:scale-110 transition text-main-red hidden sm:block"
             aria-label="Scroll Right"
           >
             <ChevronRight size={28} />
@@ -209,14 +209,14 @@ const ReviewsPage = () => {
       {/* Review Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-10 relative shadow-2xl">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full p-10 relative shadow-2xl">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-6 right-6 text-gray-600 hover:text-gray-900 text-2xl font-bold"
+              className="absolute top-6 right-6 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-2xl font-bold"
             >
               &times;
             </button>
-            <h3 className="text-2xl font-bold text-center text-gray-900 mb-6">
+            <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
               Submit Your Review
             </h3>
 
@@ -228,11 +228,13 @@ const ReviewsPage = () => {
                 placeholder="Full Name"
                 value={formData.reviewer}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 focus:ring-2 focus:ring-main-red focus:outline-none"
+                className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-main-red focus:outline-none"
               />
 
               <div className="flex items-center gap-2">
-                <span className="text-gray-700 font-medium">Rating:</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
+                  Rating:
+                </span>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -262,7 +264,7 @@ const ReviewsPage = () => {
                 value={formData.review}
                 onChange={handleChange}
                 placeholder="Write your review..."
-                className="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 focus:ring-2 focus:ring-main-red focus:outline-none resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-main-red focus:outline-none resize-none"
               />
 
               <button

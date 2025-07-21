@@ -7,7 +7,7 @@ const CertificationsPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCert, setSelectedCert] = useState(null);
   const scrollRef = useRef(null);
-  const { setIsLoginOpen, currentUser } = useContext(MyContext);
+  const { setIsLoginOpen, currentUser  } = useContext(MyContext);
   const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const CertificationsPage = () => {
   }, []);
 
   const openModal = (cert) => {
-    if (!currentUser) {
+    if (!currentUser ) {
       setIsLoginOpen(true);
       return;
     }
@@ -82,7 +82,7 @@ const CertificationsPage = () => {
     <>
       <section
         id="certifications"
-        className="bg-[#fff8f1] md:min-h-[80vh] flex justify-center items-center"
+        className="bg-[#fff8f1] md:min-h-[80vh] flex justify-center items-center dark:bg-gray-900"
       >
         <div className="max-w-7xl w-full px-4">
           <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-1 mt-8 md:mb-0  tracking-tight drop-shadow-md select-none">

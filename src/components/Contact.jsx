@@ -47,9 +47,9 @@ const ContactPage = () => {
   return (
     <section
       id="contact"
-      className="bg-[#fffdf7] md:pt-24 p-10 px-4 sm:px-6 lg:px-8"
+      className="bg-[#fffdf7] dark:bg-gray-900 md:pt-24 p-20 px-4 sm:px-6 lg:px-8"
     >
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-2xl rounded-2xl overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-2xl overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left - Info */}
           <div className="bg-main-red text-white p-10 flex flex-col justify-center space-y-6">
