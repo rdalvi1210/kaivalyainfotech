@@ -433,7 +433,7 @@ const Admin = () => {
                               />
                             </svg>
                           ) : (
-                            <MdAdminPanelSettings size={30}  />
+                            <MdAdminPanelSettings size={30} />
                           )}
                         </button>
                       ) : (
@@ -466,7 +466,7 @@ const Admin = () => {
                             </svg>
                           ) : (
                             <span>
-                              <MdAdminPanel Settings color="red" size={30} />
+                              <MdAdminPanelSettings color="red" size={30} />
                             </span>
                           )}
                         </button>
