@@ -114,8 +114,11 @@ const Navbar = () => {
       } else {
         toast.error("Login failed: No token received");
       }
-    } catch {
-      toast.error("Login failed. Please check your credentials.");
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+          "Login failed. Please check your credentials."
+      );
     } finally {
       setLoginLoading(false);
     }
