@@ -31,8 +31,8 @@ const Spinner = () => (
 
 const Navbar = () => {
   const {
-    currentUser ,
-    setCurrentUser ,
+    currentUser,
+    setCurrentUser,
     isLoginOpen,
     setIsLoginOpen,
     isRegisterOpen,
@@ -72,7 +72,7 @@ const Navbar = () => {
         sessionStorage.removeItem("token");
       }
     }
-  }, [setCurrentUser ]);
+  }, [setCurrentUser]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -104,13 +104,13 @@ const Navbar = () => {
       );
       const token = res.data.token;
       if (token) {
-        const decodedUser  = jwtDecode(token);
-        setCurrentUser (decodedUser );
+        const decodedUser = jwtDecode(token);
+        setCurrentUser(decodedUser);
         sessionStorage.setItem("token", token);
-        toast.success(`Welcome ${decodedUser .name}!`);
+        toast.success(`Welcome ${decodedUser.name}!`);
         setIsLoginOpen(false);
         setLoginData({ email: "", password: "" });
-        navigate(decodedUser .role === "admin" ? "/admin" : "/");
+        navigate(decodedUser.role === "admin" ? "/admin" : "/");
       } else {
         toast.error("Login failed: No token received");
       }
@@ -204,7 +204,7 @@ const Navbar = () => {
         {},
         { withCredentials: true }
       );
-      setCurrentUser (null);
+      setCurrentUser(null);
       sessionStorage.removeItem("token");
       toast.success("Logged out successfully.");
       navigate("/");
@@ -253,7 +253,7 @@ const Navbar = () => {
             </div>
 
             {/* Display logged-in user's name */}
-            {currentUser  && (
+            {currentUser && (
               <div className="hidden md:flex items-center text-black dark:text-white">
                 <span className="mr-4">Welcome, {currentUser.name}!</span>
               </div>
@@ -261,9 +261,9 @@ const Navbar = () => {
 
             {/* Desktop Login / Signup */}
             <div className="hidden md:flex space-x-4 items-center">
-              {currentUser  ? (
+              {currentUser ? (
                 <>
-                  {currentUser .role === "admin" && (
+                  {currentUser.role === "admin" && (
                     <button
                       onClick={() => navigate("/admin")}
                       className="px-4 py-2 border border-main-red text-main-red rounded hover:bg-main-red-10 transition"
@@ -351,7 +351,7 @@ const Navbar = () => {
                 </a>
               ))}
 
-              {!currentUser  && (
+              {!currentUser && (
                 <>
                   <a
                     onClick={() => {
@@ -375,9 +375,9 @@ const Navbar = () => {
                 </>
               )}
 
-              {currentUser  && (
+              {currentUser && (
                 <>
-                  {currentUser .role === "admin" && (
+                  {currentUser.role === "admin" && (
                     <a
                       onClick={() => {
                         navigate("/admin");
@@ -405,7 +405,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <div className="pt-10" className="dark:bg-gray-800" />
+      <div className="pt-20" />
 
       {/* Login Modal */}
       {isLoginOpen && (
@@ -566,7 +566,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={handleVerifyOtp}
-                    disabled {verifyOtpLoading || otp.length === 0}
+                    disabled={verifyOtpLoading || otp.length === 0}
                     className="w-full py-2 bg-main-red text-white rounded hover:bg-hover-red transition flex justify-center items-center cursor-pointer"
                     aria-label="Verify OTP"
                   >
