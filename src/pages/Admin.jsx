@@ -72,39 +72,27 @@ const Admin = () => {
         ] = await Promise.all([
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/courses",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/certificates",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/placements",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/auth/users",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/reviews",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
           axios.get(
             "https://kaivalyainfotechbackend.onrender.com/api/banners",
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           ),
         ]);
         setCourses(coursesRes.data);
@@ -383,7 +371,7 @@ const Admin = () => {
                   <tr key={user._id} className="border-t hover:bg-gray-100">
                     <td className="py-2 px-4">{user.name}</td>
                     <td className="py-2 px-4">{user.email}</td>
-                    <td className="py-2 px-4">{user.role || "User  "}</td>
+                    <td className="py-2 px-4">{user.role || "User "}</td>
                     <td className="py-2 px-4 flex gap-3">
                       <button
                         onClick={() => handleDelete("user", user._id)}
@@ -445,13 +433,13 @@ const Admin = () => {
                               />
                             </svg>
                           ) : (
-                            <MdAdminPanelSettings size={20} />
+                            <MdAdminPanelSettings size={30}  />
                           )}
                         </button>
                       ) : (
                         <button
                           onClick={() => handleRemoveAdmin(user._id)}
-                          className="text-yellow-600 cursor-pointer hover:text-yellow-800"
+                          className="text-yellow-600 cursor-pointer hover:text-yellow-700"
                           title="Remove admin"
                           disabled={buttonLoading[user._id]} // Disable button while loading
                         >
@@ -471,14 +459,14 @@ const Admin = () => {
                                 strokeWidth="4"
                               />
                               <path
-                                className="opacity -75"
+                                className="opacity-75"
                                 fill="currentColor"
                                 d="M4 12a8 8 0 018-8v8H4z"
                               />
                             </svg>
                           ) : (
                             <span>
-                              <MdAdminPanelSettings color="red" size={30} />
+                              <MdAdminPanel Settings color="red" size={30} />
                             </span>
                           )}
                         </button>
@@ -501,7 +489,7 @@ const Admin = () => {
           onChange={(e) => setSearchReviews(e.target.value)}
           className="border p-2 rounded w-full max-w-md mb-4"
         />
-        <div className="overflow-x-auto border rounded">
+        <div className="overflow-x-auto border rounded max-h-60 overflow-y-scroll">
           <table className="min-w-full bg-white">
             <thead className="bg-orange-600 text-white">
               <tr>
