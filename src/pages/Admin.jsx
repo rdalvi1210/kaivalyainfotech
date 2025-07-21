@@ -383,7 +383,8 @@ const Admin = () => {
                       >
                         <FaTrash size={22} />
                       </button>
-                      {currentUser.role !== user.role &&
+                      {currentUser._id !== user._id &&
+                        (user.role === "admin" || user.role === "user") &&
                         (user.role !== "admin" ? (
                           <button
                             onClick={() => handleMakeAdmin(user._id)}
