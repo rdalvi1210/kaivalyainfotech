@@ -107,7 +107,7 @@ const Navbar = () => {
         const decodedUser = jwtDecode(token);
         setCurrentUser(decodedUser);
         sessionStorage.setItem("token", token);
-        toast.success(`Welcome ${decodedUser.name}!`);
+        toast.success(`${decodedUser.name}!`);
         setIsLoginOpen(false);
         setLoginData({ email: "", password: "" });
         navigate(decodedUser.role === "admin" ? "/admin" : "/");
