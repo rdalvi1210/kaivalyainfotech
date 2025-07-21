@@ -1,6 +1,6 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, User, X } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -257,8 +257,9 @@ const Navbar = () => {
 
             {/* Display logged-in user's name */}
             {currentUser && (
-              <div className="hidden md:flex items-center text-black dark:text-white">
-                <span className="mr-4">{currentUser.name?.split(" ")[0]}!</span>
+              <div className="flex items-center space-x-2">
+                <User className="w-5 h-5 text-gray-700 dark:text-white" />
+                <span>{currentUser.name?.split(" ")[0]}</span>
               </div>
             )}
 
@@ -353,6 +354,13 @@ const Navbar = () => {
                   {item}
                 </a>
               ))}
+
+              {currentUser && (
+                <div className="flex items-center space-x-2">
+                  <User className="w-5 h-5 text-gray-700 dark:text-white" />
+                  <span>{currentUser.name?.split(" ")[0]}</span>
+                </div>
+              )}
 
               {!currentUser && (
                 <>
