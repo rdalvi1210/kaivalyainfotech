@@ -127,14 +127,14 @@ const CoursesPage = () => {
               <button
                 onClick={handlePrev}
                 aria-label="Previous courses"
-                className="absolute top-1/2 left-2 transform -translate-y-1/2 z-30 bg-white dark:bg-gray-900 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
+                className="absolute top-1/2 left-2 transform -translate-y-1/2 z-30 text-main-red cursor-pointer bg-white/90 dark:bg-gray-800 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
               >
                 <ChevronLeft size={24} />
               </button>
               <button
                 onClick={handleNext}
                 aria-label="Next courses"
-                className="absolute top-1/2 right-2 transform -translate-y-1/2 z-30 bg-white dark:bg-gray-900 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
+                className="absolute top-1/2 right-2 transform -translate-y-1/2 z-30  text-main-red cursor-pointer bg-white dark:bg-gray-900 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
               >
                 <ChevronRight size={24} />
               </button>
