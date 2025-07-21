@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // ✅ import icons
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MyContext } from "../context/MyContext";
 
@@ -10,6 +10,10 @@ const CertificationsPage = () => {
   const scrollRef = useRef(null);
   const { setIsLoginOpen, currentUser } = useContext(MyContext);
   const isLoggedIn = Boolean(localStorage.getItem("token"));
+
+  const isUserScrollingRef = useRef(false);
+  const pauseTimeoutRef = useRef(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     const fetchCertifications = async () => {
@@ -25,21 +29,13 @@ const CertificationsPage = () => {
     fetchCertifications();
   }, []);
 
-  useEffect(() => {
+  const startAutoSlide = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    let isUserScrolling = false;
-    const onUserScroll = () => {
-      isUserScrolling = true;
-      clearTimeout(pauseTimeout);
-      pauseTimeout = setTimeout(() => (isUserScrolling = false), 3000);
-    };
-    scrollContainer.addEventListener("scroll", onUserScroll);
-
-    let pauseTimeout = null;
-    const interval = setInterval(() => {
-      if (isUserScrolling) return;
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (isUserScrollingRef.current) return;
       if (
         scrollContainer.scrollLeft + scrollContainer.clientWidth >=
         scrollContainer.scrollWidth - 1
@@ -49,10 +45,30 @@ const CertificationsPage = () => {
         scrollContainer.scrollBy({ left: 300, behavior: "smooth" });
       }
     }, 3500);
+  };
+
+  const pauseAutoSlide = () => {
+    isUserScrollingRef.current = true;
+    clearTimeout(pauseTimeoutRef.current);
+    pauseTimeoutRef.current = setTimeout(() => {
+      isUserScrollingRef.current = false;
+    }, 3000);
+  };
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const onUserScroll = () => {
+      pauseAutoSlide();
+    };
+
+    scrollContainer.addEventListener("scroll", onUserScroll);
+    startAutoSlide();
 
     return () => {
-      clearInterval(interval);
-      clearTimeout(pauseTimeout);
+      clearInterval(intervalRef.current);
+      clearTimeout(pauseTimeoutRef.current);
       scrollContainer.removeEventListener("scroll", onUserScroll);
     };
   }, []);
@@ -79,12 +95,13 @@ const CertificationsPage = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [modalOpen]);
 
-  // Manual scroll handlers
   const scrollLeft = () => {
+    pauseAutoSlide();
     scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
   };
 
   const scrollRight = () => {
+    pauseAutoSlide();
     scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
   };
 
@@ -99,7 +116,6 @@ const CertificationsPage = () => {
             Our Students offer letter...
           </h2>
 
-          {/* Left Button */}
           <button
             className="absolute top-1/2 left-3 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
             onClick={scrollLeft}
@@ -108,7 +124,6 @@ const CertificationsPage = () => {
             <ChevronLeft className="w-7 h-7 text-main-red" />
           </button>
 
-          {/* Right Button */}
           <button
             className="absolute top-1/2 right-3 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
             onClick={scrollRight}
@@ -137,7 +152,6 @@ const CertificationsPage = () => {
                     key={_id}
                     className="flex-shrink-0 snap-start w-full sm:w-[300px] min-w-[280px] bg-white dark:bg-gray-800 border border-main-red dark:border-gray-700 shadow-xl transition-transform duration-300 hover:scale-105 relative"
                   >
-                    {/* View Button */}
                     <button
                       onClick={() =>
                         openModal({
@@ -173,7 +187,6 @@ const CertificationsPage = () => {
         </div>
       </section>
 
-      {/* Modal Overlay */}
       {modalOpen && selectedCert && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
@@ -218,7 +231,6 @@ const CertificationsPage = () => {
         </div>
       )}
 
-      {/* Custom Scrollbar & Modal Animation */}
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

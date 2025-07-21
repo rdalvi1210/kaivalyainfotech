@@ -11,8 +11,11 @@ const CoursesPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const { setIsLoginOpen, currentUser } = useContext(MyContext);
-
   const [cardsPerSlide, setCardsPerSlide] = useState(3);
+
+  const autoSlideRef = useRef(null);
+  const resumeTimeoutRef = useRef(null);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     const updateCardsPerSlide = () => {
@@ -26,8 +29,6 @@ const CoursesPage = () => {
   }, []);
 
   const maxIndex = Math.max(0, courses.length - cardsPerSlide);
-
-  const sliderRef = useRef(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -45,23 +46,29 @@ const CoursesPage = () => {
     fetchCourses();
   }, []);
 
-  const closeModal = useCallback(() => setSelectedCourse(null), []);
+  const pauseAutoSlide = () => {
+    if (autoSlideRef.current) clearInterval(autoSlideRef.current);
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+  };
 
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [closeModal]);
+  const resumeAutoSlide = () => {
+    resumeTimeoutRef.current = setTimeout(() => {
+      startAutoSlide();
+    }, 8000);
+  };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-      });
+  const startAutoSlide = () => {
+    pauseAutoSlide();
+    autoSlideRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex >= maxIndex ? 0 : prevIndex + 1
+      );
     }, 6000);
-    return () => clearInterval(interval);
+  };
+
+  useEffect(() => {
+    startAutoSlide();
+    return () => pauseAutoSlide();
   }, [maxIndex]);
 
   useEffect(() => {
@@ -70,9 +77,14 @@ const CoursesPage = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    pauseAutoSlide();
+    resumeAutoSlide();
   };
+
   const handleNext = () => {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    pauseAutoSlide();
+    resumeAutoSlide();
   };
 
   const touchStartX = useRef(0);
@@ -89,6 +101,16 @@ const CoursesPage = () => {
     if (diff > 50) handleNext();
     else if (diff < -50) handlePrev();
   };
+
+  const closeModal = useCallback(() => setSelectedCourse(null), []);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [closeModal]);
 
   const handleViewDetails = (course) => {
     if (!currentUser) {
@@ -121,7 +143,6 @@ const CoursesPage = () => {
         </h2>
 
         <div className="overflow-hidden relative">
-          {/* Chevron Buttons */}
           {courses.length > 0 && (
             <>
               <button
@@ -141,7 +162,6 @@ const CoursesPage = () => {
             </>
           )}
 
-          {/* Course Slider */}
           {courses.length > 0 ? (
             <div
               ref={sliderRef}
@@ -225,7 +245,6 @@ const CoursesPage = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {selectedCourse && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
