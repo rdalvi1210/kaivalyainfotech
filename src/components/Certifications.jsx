@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // ✅ import icons
 import { useContext, useEffect, useRef, useState } from "react";
 import { MyContext } from "../context/MyContext";
 
@@ -7,7 +8,7 @@ const CertificationsPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCert, setSelectedCert] = useState(null);
   const scrollRef = useRef(null);
-  const { setIsLoginOpen, currentUser  } = useContext(MyContext);
+  const { setIsLoginOpen, currentUser } = useContext(MyContext);
   const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const CertificationsPage = () => {
   }, []);
 
   const openModal = (cert) => {
-    if (!currentUser ) {
+    if (!currentUser) {
       setIsLoginOpen(true);
       return;
     }
@@ -78,16 +79,43 @@ const CertificationsPage = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [modalOpen]);
 
+  // Manual scroll handlers
+  const scrollLeft = () => {
+    scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
     <>
       <section
         id="certifications"
         className="bg-[#fff8f1] md:min-h-[80vh] flex justify-center items-center dark:bg-gray-900"
       >
-        <div className="max-w-7xl w-full px-4">
+        <div className="max-w-7xl w-full px-4 relative">
           <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-1 mt-8 md:mb-0  tracking-tight drop-shadow-md select-none">
             Our Students offer letter...
           </h2>
+
+          {/* Left Button */}
+          <button
+            className="absolute top-1/2 left-0 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
+            onClick={scrollLeft}
+            aria-label="Scroll Left"
+          >
+            <ChevronLeft className="w-6 h-6 text-main-red" />
+          </button>
+
+          {/* Right Button */}
+          <button
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border border-gray-400 p-1 rounded-full shadow hover:bg-gray-100"
+            onClick={scrollRight}
+            aria-label="Scroll Right"
+          >
+            <ChevronRight className="w-6 h-6 text-main-red" />
+          </button>
 
           <div
             ref={scrollRef}
@@ -135,16 +163,6 @@ const CertificationsPage = () => {
                         draggable={false}
                       />
                     </div>
-
-                    {/* <div className="flex-1 p-5 bg-gradient-to-t from-black/90 via-black/60 to-transparent text-white flex flex-col justify-end min-h-[8rem]">
-                        <h4 className="text-lg font-semibold truncate">
-                          {title}
-                        </h4>
-                        <p className="text-sm truncate">{issuer}</p>
-                        <p className="text-xs italic opacity-80">
-                          Issued: {new Date(issueDate).toLocaleDateString()}
-                        </p>
-                      </div> */}
                   </div>
                 )
               )
