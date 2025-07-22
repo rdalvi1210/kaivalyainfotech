@@ -39,12 +39,12 @@ const ImageSlider = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-gray-100 text-gray-500"></div>
+      <div className="h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-gray-100 text-gray-500 dark:bg-gray-900"></div>
     );
   }
 
   return (
-    <section className="relative w-full overflow-hidden h-[250px] sm:h-[400px] md:h-[500px] bg-black">
+    <section className="relative dark:bg-gray-900  w-full overflow-hidden h-[250px] sm:h-[400px] md:h-[500px] bg-black">
       {/* Slides */}
       <div className="absolute inset-0 z-0">
         {banners.map((banner, index) => (

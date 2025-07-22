@@ -181,7 +181,7 @@ const CertificationsPage = () => {
                 )
               )
             ) : (
-              <div className="flex items-center justify-center w-full h-96"></div>
+              <div className="flex dark:bg-gray-90 items-center justify-center w-full h-96"></div>
             )}
           </div>
         </div>

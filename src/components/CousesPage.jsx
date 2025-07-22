@@ -9,10 +9,13 @@ const CoursesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsPerSlide, setCardsPerSlide] = useState(3);
+
+  const autoSlideInterval = useRef(null);
+  const autoSlideTimeout = useRef(null);
+  const latestIndex = useRef(0); // ✅ To resume from latest index
 
   const { setIsLoginOpen, currentUser } = useContext(MyContext);
-
-  const [cardsPerSlide, setCardsPerSlide] = useState(3);
 
   useEffect(() => {
     const updateCardsPerSlide = () => {
@@ -55,27 +58,30 @@ const CoursesPage = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [closeModal]);
 
-  const intervalRef = useRef(null);
-  const timeoutRef = useRef(null);
-
-  const startAutoSlide = useCallback(() => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
+  const startAutoSlide = () => {
+    autoSlideInterval.current = setInterval(() => {
       setCurrentIndex((prevIndex) => {
-        return prevIndex >= maxIndex ? 0 : prevIndex + 1;
+        const newIndex = prevIndex >= maxIndex ? 0 : prevIndex + 1;
+        latestIndex.current = newIndex;
+        return newIndex;
       });
     }, 6000);
-  }, [maxIndex]);
+  };
+
+  const stopAutoSlide = () => {
+    clearInterval(autoSlideInterval.current);
+    clearTimeout(autoSlideTimeout.current);
+  };
 
   useEffect(() => {
+    latestIndex.current = 0;
     startAutoSlide();
-    return () => clearInterval(intervalRef.current);
-  }, [startAutoSlide]);
+    return () => stopAutoSlide();
+  }, [maxIndex]);
 
   const resetAutoSlide = () => {
-    clearInterval(intervalRef.current);
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
+    stopAutoSlide();
+    autoSlideTimeout.current = setTimeout(() => {
       startAutoSlide();
     }, 8000);
   };
@@ -85,11 +91,20 @@ const CoursesPage = () => {
   }, [courses.length, cardsPerSlide]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    setCurrentIndex((prev) => {
+      const newIndex = prev <= 0 ? maxIndex : prev - 1;
+      latestIndex.current = newIndex;
+      return newIndex;
+    });
     resetAutoSlide();
   };
+
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    setCurrentIndex((prev) => {
+      const newIndex = prev >= maxIndex ? 0 : prev + 1;
+      latestIndex.current = newIndex;
+      return newIndex;
+    });
     resetAutoSlide();
   };
 
@@ -109,21 +124,17 @@ const CoursesPage = () => {
   };
 
   const handleViewDetails = (course) => {
-    if (!currentUser) {
-      setIsLoginOpen(true);
-    } else {
-      setSelectedCourse(course);
-    }
+    setSelectedCourse(course);
   };
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-[50vh]"></div>
+      <div className="flex dark:bg-gray-900 justify-center items-center min-h-[50vh]"></div>
     );
 
   if (error)
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center dark:bg-gray-90 items-center min-h-screen">
         <p className="text-main-red dark:text-red-400">{error}</p>
       </div>
     );
@@ -144,103 +155,100 @@ const CoursesPage = () => {
               <button
                 onClick={handlePrev}
                 aria-label="Previous courses"
-                className="absolute top-1/2 left-2 transform -translate-y-1/2 z-30 text-main-red cursor-pointer bg-white/90 dark:bg-gray-800 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
+                className="absolute top-1/2 left-2 transform -translate-y-1/2 z-30 text-main-red bg-white/90 dark:bg-gray-800 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
               >
                 <ChevronLeft size={24} />
               </button>
               <button
                 onClick={handleNext}
                 aria-label="Next courses"
-                className="absolute top-1/2 right-2 transform -translate-y-1/2 z-30  text-main-red cursor-pointer bg-white dark:bg-gray-900 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
+                className="absolute top-1/2 right-2 transform -translate-y-1/2 z-30 text-main-red bg-white dark:bg-gray-900 rounded-full p-3 sm:p-2 shadow hover:bg-main-red hover:text-white transition"
               >
                 <ChevronRight size={24} />
               </button>
             </>
           )}
 
-          {courses.length > 0 ? (
-            <div
-              ref={sliderRef}
-              className="flex transition-transform duration-500 py-2"
-              style={{
-                width: `${(courses.length * 100) / cardsPerSlide}%`,
-                transform: `translateX(-${
-                  (currentIndex * 100) / courses.length
-                }%)`,
-              }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              {courses.map((course) => {
-                const { id, title, description, category, imageUrl, duration } =
-                  course;
-                return (
-                  <article
-                    key={id}
-                    className="flex-shrink-0 mx-2"
-                    style={{
-                      width: `${100 / courses.length - 0.7}%`,
-                      minWidth: "275px",
-                    }}
-                    onClick={() => handleViewDetails(course)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        handleViewDetails(course);
-                      }
-                    }}
-                    aria-label={`View details about ${title}`}
-                  >
-                    <div className="flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-2xl transition-shadow duration-300 cursor-pointer">
-                      <div className="relative overflow-hidden rounded-t-3xl">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleViewDetails(course);
-                          }}
-                          className="absolute top-4 right-4 px-5 py-2 bg-main-red text-white rounded-full font-semibold hover:bg-hover-red transition text-sm sm:text-base cursor-pointer z-20 shadow-lg"
-                          aria-label={`View details of ${title}`}
-                        >
-                          View Details
-                        </button>
+          <div
+            ref={sliderRef}
+            className="flex transition-transform duration-500 py-2"
+            style={{
+              width: `${(courses.length * 100) / cardsPerSlide}%`,
+              transform: `translateX(-${
+                (currentIndex * 100) / courses.length
+              }%)`,
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {courses.map((course) => {
+              const { id, title, description, category, imageUrl, duration } =
+                course;
+              return (
+                <article
+                  key={id}
+                  className="flex-shrink-0 mx-2"
+                  style={{
+                    width: `${100 / courses.length - 0.7}%`,
+                    minWidth: "275px",
+                  }}
+                  onClick={() => handleViewDetails(course)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      handleViewDetails(course);
+                    }
+                  }}
+                  aria-label={`View details about ${title}`}
+                >
+                  <div className="flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-2xl transition-shadow duration-300 cursor-pointer">
+                    <div className="relative overflow-hidden rounded-t-3xl">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(course);
+                        }}
+                        className="absolute top-4 right-4 px-5 py-2 bg-main-red text-white rounded-full font-semibold hover:bg-hover-red transition text-sm sm:text-base cursor-pointer z-20 shadow-lg"
+                        aria-label={`View details of ${title}`}
+                      >
+                        View Details
+                      </button>
 
-                        <img
-                          src={imageUrl}
-                          alt={`${title} banner`}
-                          className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
+                      <img
+                        src={imageUrl}
+                        alt={`${title} banner`}
+                        className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
 
-                      <div className="p-6 flex flex-col flex-grow">
-                        <h3 className="text-xl sm:text-2xl font-semibold text-main-red dark:text-indigo-400 mb-3">
-                          {title}
-                        </h3>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="text-xl sm:text-2xl font-semibold text-main-red dark:text-indigo-400 mb-3">
+                        {title}
+                      </h3>
 
-                        <p className="text-gray-700 dark:text-gray-300 flex-grow leading-relaxed text-sm sm:text-base mb-4 line-clamp-2">
-                          {description}
-                        </p>
+                      <p className="text-gray-700 dark:text-gray-300 flex-grow leading-relaxed text-sm sm:text-base mb-4 line-clamp-2">
+                        {description}
+                      </p>
 
-                        <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 text-sm sm:text-base font-medium mb-2">
-                          <span>⏳{duration}</span>
-                          <span className="inline-block bg-indigo-100 text-main-red dark:bg-indigo-800 dark:text-white px-3 py-1 rounded-full">
-                            {category}
-                          </span>
-                        </div>
+                      <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 text-sm sm:text-base font-medium mb-2">
+                        <span>⏳{duration}</span>
+                        <span className="inline-block bg-indigo-100 text-main-red dark:bg-indigo-800 dark:text-white px-3 py-1 rounded-full">
+                          {category}
+                        </span>
                       </div>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center w-full min-h-[24rem]"></div>
-          )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
 
+      {/* Modal */}
       {selectedCourse && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
