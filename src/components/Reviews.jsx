@@ -13,6 +13,7 @@ const ReviewsPage = () => {
     reviewer: "",
     rating: 5,
     review: "",
+    userId: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -68,6 +69,7 @@ const ReviewsPage = () => {
         reviewer: currentUser.name || "Anonymous",
         rating: 5,
         review: "",
+        userId: currentUser.id,
       });
       setIsModalOpen(false);
       toast.success("Review submitted successfully!");
