@@ -57,14 +57,6 @@ const ReviewsPage = () => {
       return;
     }
 
-    // Utility function to remove middle initials
-    const getCleanReviewerName = (fullName) => {
-      const parts = fullName.trim().split(" ").filter(Boolean);
-      if (parts.length === 1) return parts[0]; // Single name
-      if (parts.length === 2) return `${parts[0]} ${parts[1]}`; // First + Last
-      return `${parts[0]} ${parts[parts.length - 1]}`; // Remove middle
-    };
-
     setLoading(true);
     try {
       const res = await axios.post(
@@ -73,7 +65,7 @@ const ReviewsPage = () => {
       );
       setReviews([res.data, ...reviews]);
       setFormData({
-        reviewer: getCleanReviewerName(currentUser.name || "Anonymous"),
+        reviewer: currentUser.name || "Anonymous",
         rating: 5,
         review: "",
       });
@@ -230,16 +222,21 @@ const ReviewsPage = () => {
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Hidden input to submit the reviewer's name */}
               <input
                 name="reviewer"
-                type="text"
-                required
-                placeholder="Full Name"
+                type="hidden"
                 value={formData.reviewer}
-                onChange={handleChange}
                 readOnly
-                className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-main-red focus:outline-none"
               />
+
+              {/* Show reviewer name as text */}
+              <div
+                className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 select-none"
+                aria-label="Reviewer Name"
+              >
+                {formData.reviewer}
+              </div>
 
               <div className="flex items-center gap-2">
                 <span className="text-gray-700 dark:text-gray-300 font-medium">
