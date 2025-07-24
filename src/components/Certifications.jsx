@@ -15,15 +15,20 @@ const CertificationsPage = () => {
   const pauseTimeoutRef = useRef(null);
   const intervalRef = useRef(null);
 
+  const { startLoading, stopLoading } = useContext(MyContext);
+
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
+        startLoading();
         const res = await axios.get(
           "https://kaivalyainfotechbackend.onrender.com/api/certificates"
         );
         setCertifications(res.data);
       } catch (err) {
         console.error("Failed to fetch certificates:", err);
+      } finally {
+        stopLoading();
       }
     };
     fetchCertifications();

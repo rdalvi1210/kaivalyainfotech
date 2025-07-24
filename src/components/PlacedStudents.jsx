@@ -1,22 +1,26 @@
 import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { MyContext } from "../context/MyContext";
 
 const PlacedStudents = () => {
   const sliderRef = useRef(null);
   const [students, setStudents] = useState([]);
   const autoScrollIntervalRef = useRef(null);
   const timeoutRef = useRef(null);
-
+  const { startLoading, stopLoading } = useContext(MyContext);
   useEffect(() => {
     const fetchStudents = async () => {
       try {
+        startLoading();
         const res = await axios.get(
           "https://kaivalyainfotechbackend.onrender.com/api/placements"
         );
         setStudents(res.data);
       } catch (err) {
         console.error("Error fetching placement data:", err);
+      } finally {
+        stopLoading();
       }
     };
     fetchStudents();
