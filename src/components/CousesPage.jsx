@@ -35,15 +35,12 @@ const CoursesPage = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        startLoading();
         const res = await axios.get(
           "https://kaivalyainfotechbackend.onrender.com/api/courses"
         );
         setCourses(res.data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch courses");
-      } finally {
-        stopLoading();
       }
     };
     fetchCourses();
