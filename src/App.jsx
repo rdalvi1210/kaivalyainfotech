@@ -100,9 +100,9 @@ const App = () => {
         </button>
       )}
 
-      {/* WhatsApp + Contact Buttons Container */}
-      <div className="fixed bottom-6 left-6 z-50 flex items-center space-x-3">
-        {/* WhatsApp Icon Button */}
+      {/* WhatsApp + Contact Buttons Container (vertical stack) */}
+      <div className="fixed bottom-6 left-6 z-50 flex flex-col space-y-3">
+        {/* WhatsApp Icon Button (below) */}
         <a
           href="https://wa.me/918097096461"
           target="_blank"
@@ -114,12 +114,12 @@ const App = () => {
           <FaWhatsapp size={30} />
         </a>
 
-        {/* Contact Button with Phone Icon */}
+        {/* Contact Button with Phone Icon (on top) */}
         <a
           href="tel:+918097096461"
           aria-label="Call Contact Number"
           style={{ width: 50, height: 50 }}
-          className="p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition flex items-center justify-center"
+          className="p-3 rounded-full bg-teal-600 text-white shadow-lg hover:bg-teal-700 transition flex items-center justify-center"
         >
           <FaPhoneAlt size={20} />
         </a>
