@@ -1,25 +1,30 @@
 import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { MyContext } from "../context/MyContext";
 
 const ImageSlider = () => {
   const [banners, setBanners] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { startLoading, stopLoading } = useContext(MyContext);
 
   // Fetch banners from backend
   useEffect(() => {
     const fetchBanners = async () => {
       try {
+        startLoading(); // Start global loading spinner
         const res = await axios.get(
           "https://kaivalyainfotechbackend.onrender.com/api/banners"
         );
         setBanners(res.data);
       } catch (err) {
         console.error("Failed to load banners:", err);
+      } finally {
+        stopLoading(); // Stop spinner whether success or error
       }
     };
     fetchBanners();
-  }, []);
+  }, [startLoading, stopLoading]);
 
   // Auto slide every 6 seconds
   useEffect(() => {

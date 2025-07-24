@@ -14,7 +14,7 @@ import Admin from "./pages/Admin";
 import Home from "./pages/Home";
 
 const App = () => {
-  const { currentUser } = useContext(MyContext);
+  const { currentUser, appLoading } = useContext(MyContext);
 
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -36,9 +36,17 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const Spinner = () => (
+    <div className="fixed inset-0 bg-white/50 dark:bg-black/50 flex items-center justify-center z-50">
+      <div className="h-12 w-12 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+
   return (
     <Router>
       <Toaster position="top-center" reverseOrder={false} />
+      {appLoading && <Spinner />}
+
       <Navbar />
 
       <div className="">
