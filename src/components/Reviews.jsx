@@ -37,6 +37,15 @@ const ReviewsPage = () => {
     fetchReviews();
   }, []);
 
+  function formatReviewerName(name) {
+    if (!name) return "";
+    const names = name.trim().split(" ");
+    if (names.length === 1) {
+      return names[0];
+    }
+    return `${names[0]} ${names[names.length - 1]}`;
+  }
+
   useEffect(() => {
     if (reviews.length === 0) return;
     const interval = setInterval(() => scroll("right"), 5000);
@@ -66,7 +75,7 @@ const ReviewsPage = () => {
       );
       setReviews([res.data, ...reviews]);
       setFormData({
-        reviewer: currentUser.name || "Anonymous",
+        reviewer: formatReviewerName(currentUser.name) || "Anonymous",
         rating: 5,
         review: "",
         userId: currentUser.id,
@@ -113,15 +122,6 @@ const ReviewsPage = () => {
 
     container.scrollTo({ left: newLeft, behavior: "smooth" });
   };
-
-  function formatReviewerName(name) {
-    if (!name) return "";
-    const names = name.trim().split(" ");
-    if (names.length === 1) {
-      return names[0];
-    }
-    return `${names[0]} ${names[names.length - 1]}`;
-  }
 
   return (
     <section
@@ -234,14 +234,6 @@ const ReviewsPage = () => {
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Hidden input to submit the reviewer's name */}
-              <input
-                name="reviewer"
-                type="hidden"
-                value={formData.reviewer}
-                readOnly
-              />
-
               {/* Show reviewer name as text */}
               <div
                 className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 select-none"
