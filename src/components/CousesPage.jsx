@@ -129,15 +129,6 @@ const CoursesPage = () => {
     setSelectedCourse(course);
   };
 
-  
-
-  if (error)
-    return (
-      <div className="flex justify-center dark:bg-gray-90 items-center min-h-screen">
-        <p className="text-main-red dark:text-red-400">{error}</p>
-      </div>
-    );
-
   return (
     <section
       id="courses"

@@ -126,7 +126,7 @@ const ReviewsPage = () => {
   return (
     <section
       id="reviews"
-      className="bg-[#fff8f1] dark:bg-[#1a1a1a] md:min-h-[60vh] flex justify-center items-center overflow-hidden"
+      className="bg-[#fff8f1] dark:bg-gray-900 md:min-h-[60vh] flex justify-center items-center overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full px-4">
         <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-8">

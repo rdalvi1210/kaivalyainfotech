@@ -85,7 +85,7 @@ const PlacedStudents = () => {
   return (
     <section
       id="interns"
-      className="py-12 px-4 sm:px-6 md:px-10 lg:px-14 bg-[#fff8f1] dark:bg-[#1a1a1a]"
+      className="py-12 px-4 sm:px-6 md:px-10 lg:px-14 bg-[#fff8f1] dark:bg-gray-900"
     >
       <div className="max-w-7xl mx-auto relative">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black dark:text-white mb-5">

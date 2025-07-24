@@ -117,7 +117,7 @@ const CertificationsPage = () => {
         className="bg-[#fff8f1] md:min-h-[80vh] flex justify-center items-center dark:bg-gray-900"
       >
         <div className="max-w-7xl w-full px-4 relative">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-1 mt-8 md:mb-0  tracking-tight drop-shadow-md select-none">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-black dark:text-white mb-1 mt-8 md:mb-0 tracking-tight drop-shadow-md select-none">
             Our Students offer letter...
           </h2>
 
@@ -157,6 +157,19 @@ const CertificationsPage = () => {
                     key={_id}
                     className="flex-shrink-0 snap-start w-full sm:w-[300px] min-w-[280px] bg-white dark:bg-gray-800 border border-main-red dark:border-gray-700 shadow-xl transition-transform duration-300 hover:scale-105 relative"
                   >
+                    {/* Blurred Image Preview */}
+                    <div className="relative h-100 overflow-hidden bg-gradient-to-tr from-yellow-100 via-yellow-50 to-yellow-100 shadow-inner">
+                      <img
+                        src={certificateUrl}
+                        alt={`${title} certificate`}
+                        className="w-full h-full object-contain object-center pointer-events-none select-none blur-[2px] hover:blur-0 transition duration-300"
+                        loading="lazy"
+                        draggable={false}
+                      />
+                      <div className="absolute inset-0 bg-black/10 dark:bg-black/20 pointer-events-none"></div>
+                    </div>
+
+                    {/* View Button */}
                     <button
                       onClick={() =>
                         openModal({
@@ -167,31 +180,24 @@ const CertificationsPage = () => {
                           issueDate,
                         })
                       }
-                      className="absolute top-[40%] left-1/2 -translate-x-1/2 px-3 py-1 text-sm bg-main-red text-white cursor-pointer font-semibold shadow hover:bg-orange-600 transition"
+                      className="absolute top-[40%] left-1/2 -translate-x-1/2 px-3 py-1 text-sm bg-main-red text-white cursor-pointer font-semibold shadow hover:bg-orange-600 transition z-20"
                       title="View Certificate"
                     >
                       View
                     </button>
-
-                    <div className="h-100 overflow-hidden bg-gradient-to-tr from-yellow-100 via-yellow-50 to-yellow-100 shadow-inner">
-                      <img
-                        src={certificateUrl}
-                        alt={`${title} certicateUrl`}
-                        className="w-full h-full object-contain object-center pointer-events-none select-none"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                    </div>
                   </div>
                 )
               )
             ) : (
-              <div className="flex dark:bg-gray-90 items-center justify-center w-full h-96"></div>
+              <div className="flex items-center justify-center w-full h-96 dark:bg-gray-900 text-gray-400">
+                No certificates found.
+              </div>
             )}
           </div>
         </div>
       </section>
 
+      {/* Modal */}
       {modalOpen && selectedCert && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
@@ -236,6 +242,7 @@ const CertificationsPage = () => {
         </div>
       )}
 
+      {/* Custom Styles */}
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
