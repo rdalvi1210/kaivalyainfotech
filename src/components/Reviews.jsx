@@ -58,12 +58,11 @@ const ReviewsPage = () => {
     }
 
     // Utility function to remove middle initials
-    const getFirstAndLastName = (fullName) => {
-      const parts = fullName.trim().split(" ");
-      if (parts.length >= 2) {
-        return `${parts[0]} ${parts[parts.length - 1]}`;
-      }
-      return fullName;
+    const getCleanReviewerName = (fullName) => {
+      const parts = fullName.trim().split(" ").filter(Boolean);
+      if (parts.length === 1) return parts[0]; // Single name
+      if (parts.length === 2) return `${parts[0]} ${parts[1]}`; // First + Last
+      return `${parts[0]} ${parts[parts.length - 1]}`; // Remove middle
     };
 
     setLoading(true);
@@ -74,7 +73,7 @@ const ReviewsPage = () => {
       );
       setReviews([res.data, ...reviews]);
       setFormData({
-        reviewer: getFirstAndLastName(currentUser.name || "Anonymous"),
+        reviewer: getCleanReviewerName(currentUser.name || "Anonymous"),
         rating: 5,
         review: "",
       });
