@@ -57,6 +57,15 @@ const ReviewsPage = () => {
       return;
     }
 
+    // Utility function to remove middle initials
+    const getFirstAndLastName = (fullName) => {
+      const parts = fullName.trim().split(" ");
+      if (parts.length >= 2) {
+        return `${parts[0]} ${parts[parts.length - 1]}`;
+      }
+      return fullName;
+    };
+
     setLoading(true);
     try {
       const res = await axios.post(
@@ -65,7 +74,7 @@ const ReviewsPage = () => {
       );
       setReviews([res.data, ...reviews]);
       setFormData({
-        reviewer: currentUser.name || "Anonymous",
+        reviewer: getFirstAndLastName(currentUser.name || "Anonymous"),
         rating: 5,
         review: "",
       });
