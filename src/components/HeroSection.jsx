@@ -24,7 +24,7 @@ const ImageSlider = () => {
       }
     };
     fetchBanners();
-  }, [startLoading, stopLoading]);
+  }, []);
 
   // Auto slide every 6 seconds
   useEffect(() => {
