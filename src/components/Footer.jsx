@@ -24,7 +24,7 @@ const Footer = () => {
             </a>
           </p>
           <p className="text-sm">
-            <strong>Phone:</strong> +91 98765 43210
+            <strong>Phone:</strong> +91 80970 96461
           </p>
           <button
             onClick={() => window.open(mapUrl, "_blank")}
