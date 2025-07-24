@@ -207,14 +207,13 @@ const ReviewsPage = () => {
 
         {/* Leave Review Button */}
         <div className="mt-10 text-center">
-          <span className="text-2xl md:text-2xl mr-2">👉</span>
           <button
             onClick={() =>
               currentUser ? setIsModalOpen(true) : setIsLoginOpen(true)
             }
             className="text-main-red underline text-xl md:text-2xl cursor-pointer font-semibold hover:text-hover-red transition"
           >
-            Review Us
+            Rate Us
           </button>
         </div>
       </div>
