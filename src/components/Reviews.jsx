@@ -229,6 +229,7 @@ const ReviewsPage = () => {
                 placeholder="Full Name"
                 value={formData.reviewer}
                 onChange={handleChange}
+                readOnly
                 className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 focus:ring-2 focus:ring-main-red focus:outline-none"
               />
 
