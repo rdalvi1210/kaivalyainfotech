@@ -112,6 +112,15 @@ const ReviewsPage = () => {
     container.scrollTo({ left: newLeft, behavior: "smooth" });
   };
 
+  function formatReviewerName(name) {
+    if (!name) return "";
+    const names = name.trim().split(" ");
+    if (names.length === 1) {
+      return names[0];
+    }
+    return `${names[0]} ${names[names.length - 1]}`;
+  }
+
   return (
     <section
       id="reviews"
@@ -154,8 +163,9 @@ const ReviewsPage = () => {
                 >
                   <div className="flex flex-col flex-grow">
                     <h3 className="text-lg font-bold mb-2 leading-snug truncate">
-                      {reviewer}
+                      {formatReviewerName(reviewer)}
                     </h3>
+
                     <div className="mb-3 flex">{renderStars(rating)}</div>
                     <p className="text-base text-main-red font-extrabold italic leading-relaxed break-words">
                       “{review}”
