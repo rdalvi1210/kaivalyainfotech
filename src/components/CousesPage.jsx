@@ -15,7 +15,7 @@ const CoursesPage = () => {
   const autoSlideTimeout = useRef(null);
   const latestIndex = useRef(0); // ✅ To resume from latest index
 
-  const { startLoading, stopLoading } = useContext(MyContext);
+  const { setIsLoginOpen, currentUser } = useContext(MyContext);
 
   useEffect(() => {
     const updateCardsPerSlide = () => {
@@ -41,6 +41,8 @@ const CoursesPage = () => {
         setCourses(res.data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch courses");
+      } finally {
+        setLoading(false);
       }
     };
     fetchCourses();
