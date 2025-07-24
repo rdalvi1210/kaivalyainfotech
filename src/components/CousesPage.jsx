@@ -15,7 +15,7 @@ const CoursesPage = () => {
   const autoSlideTimeout = useRef(null);
   const latestIndex = useRef(0); // ✅ To resume from latest index
 
-  const { setIsLoginOpen, currentUser } = useContext(MyContext);
+  const { startLoading, stopLoading } = useContext(MyContext);
 
   useEffect(() => {
     const updateCardsPerSlide = () => {
@@ -35,6 +35,7 @@ const CoursesPage = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
+        startLoading();
         const res = await axios.get(
           "https://kaivalyainfotechbackend.onrender.com/api/courses"
         );
@@ -42,7 +43,7 @@ const CoursesPage = () => {
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch courses");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     };
     fetchCourses();
