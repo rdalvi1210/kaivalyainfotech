@@ -1,6 +1,7 @@
-import { ArrowUp } from "lucide-react"; // <-- Import icon here
+import { ArrowUp } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { FaWhatsapp } from "react-icons/fa"; // WhatsApp icon
 import {
   Navigate,
   Route,
@@ -102,6 +103,18 @@ const App = () => {
           <ArrowUp size={24} />
         </button>
       )}
+
+      {/* WhatsApp Floating Button */}
+      <a
+        href="https://wa.me/918097096461"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 left-6 z-50 p-3 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition flex items-center justify-center"
+        style={{ width: 50, height: 50 }}
+      >
+        <FaWhatsapp size={30} />
+      </a>
     </Router>
   );
 };
