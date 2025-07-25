@@ -1,6 +1,7 @@
 import { ArrowUp } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
 import {
   Navigate,
   Route,
