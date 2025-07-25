@@ -1,7 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa"; // WhatsApp and Phone icons
 import {
   Navigate,
   Route,
@@ -101,29 +100,33 @@ const App = () => {
       )}
 
       {/* WhatsApp + Contact Buttons Container (vertical stack) */}
-      <div className="fixed bottom-6 left-6 z-50 flex flex-col space-y-3">
-        {/* WhatsApp Icon Button (below) */}
-        <a
-          href="https://wa.me/918097096461"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp"
-          className="p-3 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition flex items-center justify-center"
-          style={{ width: 50, height: 50 }}
-        >
-          <FaWhatsapp size={30} />
-        </a>
+      {appLoading ? (
+        ""
+      ) : (
+        <div className="fixed bottom-6 left-6 z-50 flex flex-col space-y-3">
+          {/* WhatsApp Icon Button (below) */}
+          <a
+            href="https://wa.me/918097096461"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp"
+            className="p-3 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition flex items-center justify-center"
+            style={{ width: 50, height: 50 }}
+          >
+            <FaWhatsapp size={30} />
+          </a>
 
-        {/* Contact Button with Phone Icon (on top) */}
-        <a
-          href="tel:+918097096461"
-          aria-label="Call Contact Number"
-          style={{ width: 50, height: 50 }}
-          className="p-3 rounded-full bg-teal-600 text-white shadow-lg hover:bg-teal-700 transition flex items-center justify-center"
-        >
-          <FaPhoneAlt size={20} />
-        </a>
-      </div>
+          {/* Contact Button with Phone Icon (on top) */}
+          <a
+            href="tel:+918097096461"
+            aria-label="Call Contact Number"
+            style={{ width: 50, height: 50 }}
+            className="p-3 rounded-full bg-teal-600 text-white shadow-lg hover:bg-teal-700 transition flex items-center justify-center"
+          >
+            <FaPhoneAlt size={20} />
+          </a>
+        </div>
+      )}
     </Router>
   );
 };
