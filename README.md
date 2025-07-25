@@ -1,6 +1,6 @@
 # 🌐 KaivalyaInfotech - Fullstack Educational Coaching Website
 
-![KaivalyaInfotech Screenshot](./src/assets/view.png)
+![KaivalyaInfotech Screenshot](./src/assets/view2.png)
 
 KaivalyaInfotech is a modern educational coaching institute website built using the **MERN stack** (MongoDB, Express.js, React.js, Node.js). It includes features like student placement records, course details, certificate uploads, testimonials, and admin dashboard.
 
@@ -31,4 +31,3 @@ KaivalyaInfotech is a modern educational coaching institute website built using 
 - ✅ Contact Form & Testimonials section
 
 ---
-
