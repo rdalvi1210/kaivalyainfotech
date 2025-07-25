@@ -99,7 +99,7 @@ const App = () => {
             className="p-3 rounded-full bg-green-600 text-white shadow-lg hover:bg-green-700 transition flex items-center justify-center"
             style={{ width: 50, height: 50 }}
           >
-            <FaWhatsapp size={30} />
+            <FaWhatsapp size={31} />
           </a>
 
           {/* Contact Button with Phone Icon (on top) */}
@@ -109,7 +109,7 @@ const App = () => {
             style={{ width: 50, height: 50 }}
             className="p-3 rounded-full bg-teal-600 text-white shadow-lg hover:bg-teal-700 transition flex items-center justify-center"
           >
-            <FaPhoneAlt size={20} />
+            <FaPhoneAlt size={21} />
           </a>
         </div>
       )}
