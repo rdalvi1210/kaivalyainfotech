@@ -2,12 +2,7 @@ import { ArrowUp } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -18,16 +13,14 @@ import Pagenotfound from "./pages/Pagenotfound";
 
 const App = () => {
   const { currentUser, appLoading } = useContext(MyContext);
-
+  const location = useLocation();
   const [showTopBtn, setShowTopBtn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setShowTopBtn(window.pageYOffset > 200);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -46,37 +39,37 @@ const App = () => {
     </div>
   );
 
+  // Define routes that should show Navbar, Footer, buttons
+  const showFullLayout =
+    location.pathname === "/" || location.pathname === "/admin";
+
   return (
-    <Router>
+    <>
       <Toaster position="top-center" reverseOrder={false} />
       {appLoading && <Spinner />}
 
-      <Navbar />
+      {showFullLayout && <Navbar />}
 
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Pagenotfound />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/admin"
+          element={
+            !currentUser ? (
+              <Navigate to="/" replace />
+            ) : currentUser.role !== "admin" ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Admin />
+            )
+          }
+        />
+        <Route path="*" element={<Pagenotfound />} />
+      </Routes>
 
-          <Route
-            path="/admin"
-            element={
-              !currentUser ? (
-                <Navigate to="/" replace />
-              ) : currentUser.role !== "admin" ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Admin />
-              )
-            }
-          />
-        </Routes>
-      </div>
+      {showFullLayout && <Footer />}
 
-      <Footer />
-
-      {/* Go to Top Button */}
-      {showTopBtn && (
+      {showFullLayout && showTopBtn && (
         <button
           onClick={scrollToTop}
           aria-label="Scroll to top"
@@ -87,12 +80,8 @@ const App = () => {
         </button>
       )}
 
-      {/* WhatsApp + Contact Buttons Container (vertical stack) */}
-      {appLoading ? (
-        ""
-      ) : (
+      {showFullLayout && !appLoading && (
         <div className="fixed bottom-6 left-6 z-50 flex flex-col space-y-3">
-          {/* WhatsApp Icon Button (below) */}
           <a
             href="https://wa.me/918097096461"
             target="_blank"
@@ -104,7 +93,6 @@ const App = () => {
             <FaWhatsapp size={31} />
           </a>
 
-          {/* Contact Button with Phone Icon (on top) */}
           <a
             href="tel:+918097096461"
             aria-label="Call Contact Number"
@@ -115,7 +103,7 @@ const App = () => {
           </a>
         </div>
       )}
-    </Router>
+    </>
   );
 };
 
