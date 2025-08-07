@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import { MyContext } from "./context/MyContext";
 import Admin from "./pages/Admin";
 import Home from "./pages/Home";
+import Pagenotfound from "./pages/Pagenotfound";
 
 const App = () => {
   const { currentUser, appLoading } = useContext(MyContext);
@@ -55,6 +56,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/*" element={<Pagenotfound />} />
 
           <Route
             path="/admin"
