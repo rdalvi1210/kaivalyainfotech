@@ -56,7 +56,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/*" element={<Pagenotfound />} />
+          <Route path="*" element={<Pagenotfound />} />
 
           <Route
             path="/admin"
